@@ -7,7 +7,7 @@ export class AppController {
 
   @Get()
   @Render('index')
-  async getHello() {
+  async getPlayerRanking() {
     return { ranking: await this.appService.getPlayerRanking() };
   }
 }

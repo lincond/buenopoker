@@ -3,7 +3,6 @@ import { GameService } from './game.service';
 import { Repository } from 'typeorm';
 import { Game } from '../entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Player } from 'src/player/entities/player.entity';
 
 describe('GameService', () => {
   let service: GameService;
