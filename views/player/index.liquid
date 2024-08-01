@@ -2,6 +2,16 @@
 {% block 'content' %}
 <h1>Players</h1>
 
+<form id="new-player" method="post" enctype="x-www-formurlencoded">
+  <label for="name">Nome</label>
+  <input id="name" type="text" name="name" minlength="3" maxlength="60" required />
+  <label for="pix">Chave Pix</label>
+  <input id="pix" type="text" name="pix" minlength="3" maxlength="60" required />
+  <button type="submit">
+    Cadastrar jogador
+  </button>
+</form>
+
 {% unless players == empty %}
   <ul>
     {% for player in players %}

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Render } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Render, Redirect } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
@@ -8,8 +8,9 @@ export class PlayerController {
   constructor(private readonly playerService: PlayerService) {}
 
   @Post()
-  create(@Body() createPlayerDto: CreatePlayerDto) {
-    return this.playerService.create(createPlayerDto);
+  @Redirect('/player')
+  async create(@Body() createPlayerDto: CreatePlayerDto) {
+    await this.playerService.create(createPlayerDto);
   }
 
   @Get()
