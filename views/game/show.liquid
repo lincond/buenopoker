@@ -1,86 +1,177 @@
 {% layout 'default.liquid' %}
 {% block 'content' %}
-<h1>Jogo #{{ game.id }}</h1>
-<p>{{ game.createdAt }}</p>
-<strong>Dólar: U$ {{ game.dolar | divided_by: 100 }}</strong>
+<h1 class="text-2xl dark:text-white font-bold mb-2">Jogo #{{ game.id }}</h1>
+<p class="text-gray-500 dark:text-gray-400 mb-4">Jogo criado em {{ game.createdAt | date: "%d/%m/%Y %H:%M" }}</p>
 
-{% assign buyInChips =  game.buyIns | sum: 'chips' %}
-<p>Fichas compradas: {{ buyInChips }} ({{ buyInChips | times: game.dolar | divided_by: 10000 | BRL }})</p>
-{% assign cashOutChips =  game.cashOuts | sum: 'chips' %}
-<p>Fichas retiradas: {{ cashOutChips }} ({{ cashOutChips | times: game.dolar | divided_by: 10000 | BRL }})</p>
-{% assign inGameChips =  buyInChips | minus: cashOutChips %}
-<strong>Fichas no jogo: {{ inGameChips }} ({{ inGameChips | times: game.dolar | divided_by: 10000 | BRL }}) </strong>
+<div class="text-gray-500 dark:text-white mb-4">
+  <strong class="mb-3">Dólar: U$ {{ game.dolar | divided_by: 100 }}</strong>
 
-<hr />
+  {% assign buyInChips =  game.buyIns | sum: 'chips' %}
+  {% assign cashOutChips =  game.cashOuts | sum: 'chips' %}
+  {% assign inGameChips =  buyInChips | minus: cashOutChips %}
 
-<h2>Buy In</h2>
-<form id="new-buyin" action="/game/{{ game.id }}/buy-in" method="post" enctype="x-www-formurlencoded">
-  <label for="playerId">Jogador</label>
-  <select id="playerId" name="playerId" required>
-    <option value="" selected disabled hidden>Selecione o Jogador</option>
-    {% for player in allPlayers %}
-      <option value="{{ player.id }}">{{ player.name }}</option>
-    {% endfor %}
-  </select>
-  <label for="chips">Valor em Fichas</label>
-  <input id="chips" type="number" name="chips" min="1" max="9999" value="550" required />
-  <small>Valor em somado das fichas entregues. Ex.:  550</small>
-  <button type="submit">
+  <p>Fichas compradas: {{ buyInChips }} ({{ buyInChips | times: game.dolar | divided_by: 10000 | BRL }})</p>
+  <p>Fichas retiradas: {{ cashOutChips }} ({{ cashOutChips | times: game.dolar | divided_by: 10000 | BRL }})</p>
+  <strong>Fichas no jogo: {{ inGameChips }} ({{ inGameChips | times: game.dolar | divided_by: 10000 | BRL }}) </strong>
+</div>
+
+<h2 class="text-lg dark:text-white font-bold mb-3">Buy In</h1>
+<form id="new-buyin" action="/game/{{ game.id }}/buy-in" method="post" enctype="x-www-form-urlencoded">
+  <div class="mb-3">
+    <label for="playerId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jogador</label>
+    <select id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" required>
+      <option value="" selected disabled hidden>Selecione o Jogador</option>
+      {% for player in allPlayers %}
+        <option value="{{ player.id }}">{{ player.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="chips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichas</label>
+    <input id="chips" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="1" max="9999" value="550" required />
+    <small class="mt-2 text-sm text-gray-500 dark:text-gray-400">Valor em somado das fichas entregues para o jogador. Ex.:  550</small>
+  </div>
+
+  <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
     Cadastrar BuyIn
   </button>
 </form>
+
+<hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
+
 {% unless game.buyIns == empty %}
-  <ul>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          Jogador
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Fichas
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Entrada
+        </th>
+      </tr>
+    </thead>
+    <tbody>
     {% for buyIn in game.buyIns %}
-      <li>
-        [{{ buyIn.createdAt }}] {{ buyIn.player.name }} - Fichas: {{ buyIn.chips }}
-      </li>
-    {% endfor %}
-  </ul>
+        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{ buyIn.player.name }}
+          </th>
+          <td class="px-6 py-4">
+            {{ buyIn.chips }}
+          </td>
+          <td class="px-6 py-4">
+            {{ buyIn.createdAt | date: "%H:%M" }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% else %}
-  <p>Nenhum Buy In cadastrado</p>
+  <p class="dark:text-white">Nenhum Buy In cadastrado</p>
 {% endunless %}
 
-<h2>Jogadores</h2>
+<hr class="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700" />
+
+<h2 class="text-lg dark:text-white font-bold mb-3">Jogadores</h1>
 {% unless gamePlayers == empty %}
-  <ul>
-    {% for player in gamePlayers %}
-      <li>
-        {{ player.name }}
-      </li>
-    {% endfor %}
-  </ul>
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">
+            ID
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Jogador
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for player in gamePlayers %}
+          <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{ player.id }}
+            </th>
+            <td class="px-6 py-4">
+              {{ player.name }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% else %}
-  <p>Nenhum jogador</p>
+  <p class="dark:text-white">Nenhum jogador</p>
 {% endunless %}
 
-<h2>Cash Out</h2>
-<form id="new-cashout" action="/game/{{ game.id }}/cash-out" method="post" enctype="x-www-formurlencoded">
-  <label for="playerId">Jogador</label>
-  <select id="playerId" name="playerId" required>
-    <option value="" selected disabled hidden>Selecione o Jogador</option>
-    {% for player in gamePlayers %}
-      <option value="{{ player.id }}">{{ player.name }}</option>
-    {% endfor %}
-  </select>
-  <label for="chips">Valor em Fichas</label>
-  <input id="chips" type="number" name="chips" min="1" max="{{ inGameChips }}" required />
-  <small>Valor em somado das fichas do jogador. Ex.:  820</small>
-  <button type="submit">
+<hr class="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700" />
+
+<h2 class="text-lg dark:text-white font-bold mb-3">CashOut</h1>
+<form id="new-cashout" class="mb-4" action="/game/{{ game.id }}/cash-out" method="post" enctype="x-www-form-urlencoded">
+  <div class="mb-3">
+    <label for="playerId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jogador</label>
+    <select id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" required>
+      <option value="" selected disabled hidden>Selecione o Jogador</option>
+      {% for player in allPlayers %}
+        <option value="{{ player.id }}">{{ player.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="chips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichas</label>
+    <input id="chips" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="1" max="{{ inGameChips }}" value="550" required />
+    <small class="mt-2 text-sm text-gray-500 dark:text-gray-400">Valor em somado das fichas entregues pelo jogador. Ex.:  600</small>
+  </div>
+
+
+  <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
     Cadastrar CashOut
   </button>
 </form>
 
 {% unless game.cashOuts == empty %}
-  <ul>
-    {% for cashOut in game.cashOuts %}
-      <li>
-        {{ cashOut.player.name }} - Fichas: {{ cashOut.chips }}
-      </li>
-    {% endfor %}
-  </ul>
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">
+            Jogador
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Fichas
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Entrada
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cashOut in game.cashOuts %}
+          <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{ cashOut.player.name }}
+            </th>
+            <td class="px-6 py-4">
+              {{ cashOut.chips }}
+            </td>
+            <td class="px-6 py-4">
+              {{ cashOut.createdAt | date: "%H:%M" }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% else %}
-  <p>Nenhum cash out</p>
+  <p class="dark:text-white">Nenhum cash out</p>
 {% endunless %}
 
 
