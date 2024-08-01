@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BuyIn } from "src/game/entities/buy-in.entity";
+import { Column, CreateDateColumn, Entity,  OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Player {
@@ -6,18 +7,21 @@ export class Player {
   id: number;
 
   @Column()
-  name: string
+  name: string;
 
   @Column({ nullable: true })
-  pix: string
+  pix: string;
+
+  @OneToMany(() => BuyIn, (buyIn) => buyIn.player)
+  buyIns: BuyIn[];
 
   @CreateDateColumn()
-  createdAt: Date
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date
+  updatedAt: Date;
 
   constructor(partial: Partial<Player>) {
-    Object.assign(this, partial)
+    Object.assign(this, partial);
   }
 }

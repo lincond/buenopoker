@@ -1,0 +1,26 @@
+{% layout 'default.liquid' %}
+{% block 'content' %}
+<h1>Jogos</h1>
+
+<form id="new-game" method="post" enctype="x-www-formurlencoded">
+  <label for="dolar">Valor Dólar</label>
+  <input id="dolar" type="number" name="dolar" min="100" max="1000" required />
+  <small>Valor em centavos. Ex.: R$ 5,50 = 550</small>
+  <label for="royalFlushFee">Taxa Royal Flush</label>
+  <input id="royalFlushFee" type="number" name="royalFlushFee" min="1" max="99" required />
+  <small>Valor em % sem casas decimais. Ex.: 1% = 1</small>
+  <button type="submit">
+    Cadastrar jogo
+  </button>
+</form>
+
+{% unless games == empty %}
+  <ul>
+    {% for game in games %}
+      <li>[{{ game.createdAt }}] {{ game.id }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Nenhum jogo cadastrado</p>
+{% endunless %}
+{% endblock %}
