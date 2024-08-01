@@ -1,4 +1,11 @@
-import { Body, Controller, Param, ParseIntPipe, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  ParseIntPipe,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { CashOutService } from '../services';
 import { CreateCashOutDto } from '../dto/create-cash-out.dto';
 import { Response } from 'express';
@@ -11,10 +18,9 @@ export class CashOutController {
   async create(
     @Param('gameId', ParseIntPipe) gameId: number,
     @Body() createCashOutDto: CreateCashOutDto,
-    @Res() response: Response
+    @Res() response: Response,
   ) {
-    await this.cashOutService.create(gameId, createCashOutDto)
-    response.redirect(`/game/${gameId}`)
+    await this.cashOutService.create(gameId, createCashOutDto);
+    response.redirect(`/game/${gameId}`);
   }
 }
-

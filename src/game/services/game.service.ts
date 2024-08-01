@@ -8,16 +8,25 @@ import { Repository } from 'typeorm';
 export class GameService {
   constructor(
     @InjectRepository(Game)
-    private readonly gameRepository: Repository<Game>
+    private readonly gameRepository: Repository<Game>,
   ) {}
 
   async create(createGameDto: CreateGameDto) {
-    const game = new Game(createGameDto)
-    return await this.gameRepository.save(game)
+    const game = new Game(createGameDto);
+    return await this.gameRepository.save(game);
   }
 
   async findAll() {
-    return await this.gameRepository.find()
+    return await this.gameRepository.find({
+      relations: {
+        buyIns: {
+          player: true,
+        },
+        cashOuts: {
+          player: true,
+        },
+      },
+    });
   }
 
   async findOne(id: number) {
@@ -25,13 +34,12 @@ export class GameService {
       where: { id },
       relations: {
         buyIns: {
-          player: true
+          player: true,
         },
         cashOuts: {
-          player: true
-        }
-      }
-    })
+          player: true,
+        },
+      },
+    });
   }
-
 }

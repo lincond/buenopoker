@@ -13,7 +13,7 @@ export class BuyInService {
     private readonly buyInRepository: Repository<BuyIn>,
     @InjectRepository(Game)
     private readonly gameRepository: Repository<Game>,
-    private readonly playerService: PlayerService
+    private readonly playerService: PlayerService,
   ) {}
 
   async create(gameId: number, createBuyInDto: CreateBuyInDto) {
@@ -24,10 +24,10 @@ export class BuyInService {
 
     const player = await this.playerService.findOne(createBuyInDto.playerId);
     if (!player) {
-      throw new Error('Jogador inválido')
+      throw new Error('Jogador inválido');
     }
 
-    const buyIn = new BuyIn({ player, game, chips: createBuyInDto.chips })
+    const buyIn = new BuyIn({ player, game, chips: createBuyInDto.chips });
     return await this.buyInRepository.save(buyIn);
   }
 }

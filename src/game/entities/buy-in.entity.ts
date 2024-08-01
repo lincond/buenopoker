@@ -1,6 +1,13 @@
-import { Player } from "src/player/entities/player.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Game } from "./game.entity";
+import { Player } from 'src/player/entities/player.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Game } from './game.entity';
 
 @Entity()
 export class BuyIn {

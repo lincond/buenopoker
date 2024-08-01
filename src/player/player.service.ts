@@ -9,12 +9,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class PlayerService {
   constructor(
     @InjectRepository(Player)
-    private readonly playerRepository: Repository<Player>
+    private readonly playerRepository: Repository<Player>,
   ) {}
 
   async create(createPlayerDto: CreatePlayerDto) {
-    const player = new Player(createPlayerDto)
-    return await this.playerRepository.save(player)
+    const player = new Player(createPlayerDto);
+    return await this.playerRepository.save(player);
   }
 
   findAll() {
@@ -22,7 +22,7 @@ export class PlayerService {
   }
 
   findOne(id: number) {
-    return this.playerRepository.findOne({ where: { id }})
+    return this.playerRepository.findOne({ where: { id } });
   }
 
   update(id: number, updatePlayerDto: UpdatePlayerDto) {

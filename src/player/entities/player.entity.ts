@@ -1,6 +1,13 @@
-import { BuyIn } from "src/game/entities/buy-in.entity";
-import { CashOut } from "src/game/entities/cash-out.entity";
-import { Column, CreateDateColumn, Entity,  OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BuyIn } from 'src/game/entities/buy-in.entity';
+import { CashOut } from 'src/game/entities/cash-out.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Player {
