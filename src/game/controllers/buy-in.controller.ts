@@ -1,5 +1,5 @@
 import { Body, Controller, Param, ParseIntPipe, Post, Res } from '@nestjs/common';
-import { BuyInService } from './buy-in.service';
+import { BuyInService } from '../services';
 import { CreateBuyInDto } from '../dto/create-buy-in.dto';
 import { Response } from 'express';
 

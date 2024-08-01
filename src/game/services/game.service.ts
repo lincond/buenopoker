@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateGameDto } from './dto/create-game.dto';
+import { CreateGameDto } from '../dto/create-game.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Game } from './entities/game.entity';
+import { Game } from '../entities/game.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Res, Render, ParseIntPipe } from '@nestjs/common';
-import { GameService } from './game.service';
-import { CreateGameDto } from './dto/create-game.dto';
+import { GameService } from '../services';
+import { CreateGameDto } from '../dto/create-game.dto';
 import { Response } from 'express';
 import { PlayerService } from 'src/player/player.service';
 
