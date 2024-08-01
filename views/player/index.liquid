@@ -1,24 +1,62 @@
 {% layout 'default.liquid' %}
 {% block 'content' %}
-<h1>Players</h1>
+<h1 class="text-2xl dark:text-white font-bold mb-4">Jogadores</h1>
 
-<form id="new-player" method="post" enctype="x-www-formurlencoded">
-  <label for="name">Nome</label>
-  <input id="name" type="text" name="name" minlength="3" maxlength="60" required />
-  <label for="pix">Chave Pix</label>
-  <input id="pix" type="text" name="pix" minlength="3" maxlength="60" required />
-  <button type="submit">
+<h2 class="text-lg dark:text-white font-bold mb-2">Novo Jogador</h1>
+<form id="new-player" class="mb-4" method="post" enctype="x-www-form-urlencoded">
+  <div class="mb-3">
+    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
+    <input id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="name" minlength="3" max="60" required />
+  </div>
+
+  <div class="mb-3">
+    <label for="pix" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Chave Pix</label>
+    <input id="pix" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="pix" minlength="3" max="60" required />
+  </div>
+
+  <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
     Cadastrar jogador
   </button>
 </form>
 
+<hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
+
+<h2 class="text-lg dark:text-white font-bold mb-3">Jogadores</h1>
+
 {% unless players == empty %}
-  <ul>
-    {% for player in players %}
-      <li>{{ player.name }}</li>
-    {% endfor %}
-  </ul>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          #
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Nome
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Pix
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for player in players %}
+        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{ player.id }}
+          </th>
+          <td class="px-6 py-4">
+            {{ player.name }}
+          </td>
+          <td class="px-6 py-4">
+            {{ player.pix }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% else %}
-  <p>Nenhum jogador cadastrado</p>
+  <p class="dark:text-white">Nenhum jogador cadastrado</p>
 {% endunless %}
 {% endblock %}
