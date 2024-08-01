@@ -4,7 +4,7 @@ import { BuyIn } from '../entities/buy-in.entity';
 import { Repository } from 'typeorm';
 import { CreateBuyInDto } from '../dto/create-buy-in.dto';
 import { Game } from '../entities/game.entity';
-import { PlayerService } from 'src/player/player.service';
+import { PlayerService } from '../../player/player.service';
 
 @Injectable()
 export class BuyInService {

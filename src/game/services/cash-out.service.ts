@@ -4,7 +4,7 @@ import { CashOut } from '../entities/cash-out.entity';
 import { Repository } from 'typeorm';
 import { CreateCashOutDto } from '../dto/create-cash-out.dto';
 import { Game } from '../entities/game.entity';
-import { PlayerService } from 'src/player/player.service';
+import { PlayerService } from '../../player/player.service';
 
 @Injectable()
 export class CashOutService {
