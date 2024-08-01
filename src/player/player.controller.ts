@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Render } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
@@ -13,8 +13,9 @@ export class PlayerController {
   }
 
   @Get()
-  findAll() {
-    return this.playerService.findAll();
+  @Render('player/index')
+  async findAll() {
+    return { players: this.playerService.findAll() };
   }
 
   @Get(':id')

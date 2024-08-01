@@ -1,0 +1,14 @@
+{% layout 'default.liquid' %}
+{% block 'content' %}
+<h1>Players</h1>
+
+{% unless players == empty %}
+  <ul>
+    {% for player in players %}
+      <li>{{ player.name }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Nenhum jogador cadastrado</p>
+{% endunless %}
+{% endblock %}
