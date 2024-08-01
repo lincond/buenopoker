@@ -1,11 +1,14 @@
 import { Player } from "src/player/entities/player.entity";
-import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Game } from "./game.entity";
 
 @Entity()
 export class BuyIn {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ type: 'int' })
+  chips: number;
 
   @ManyToOne(() => Player, (player) => player.buyIns)
   player: Player;

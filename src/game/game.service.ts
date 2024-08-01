@@ -21,7 +21,14 @@ export class GameService {
   }
 
   async findOne(id: number) {
-    return await this.gameRepository.findOne({ where: { id } })
+    return await this.gameRepository.findOne({
+      where: { id },
+      relations: {
+        buyIns: {
+          player: true
+        }
+      }
+    })
   }
 
 }

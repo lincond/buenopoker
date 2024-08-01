@@ -2,10 +2,14 @@ import { Controller, Get, Post, Body, Param, Res, Render, ParseIntPipe } from '@
 import { GameService } from './game.service';
 import { CreateGameDto } from './dto/create-game.dto';
 import { Response } from 'express';
+import { PlayerService } from 'src/player/player.service';
 
 @Controller('game')
 export class GameController {
-  constructor(private readonly gameService: GameService) {}
+  constructor(
+    private readonly gameService: GameService,
+    private readonly playerService: PlayerService
+  ) {}
 
   @Post()
   async create(
@@ -25,7 +29,10 @@ export class GameController {
   @Get(':id')
   @Render('game/show')
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    return { game: await this.gameService.findOne(id) };
+    return { 
+      game: await this.gameService.findOne(id),
+      players: await this.playerService.findAll()
+    };
   }
 
 }
