@@ -23,5 +23,4 @@ export class PlayerService {
   async findOne(id: number) {
     return await this.playerRepository.findOne({ where: { id } });
   }
-
 }

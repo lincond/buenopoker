@@ -40,19 +40,16 @@ export class GameController {
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const game = await this.gameService.findOne(id);
     const gamePlayers = game.buyIns
-      .map((buyIn) => ({...buyIn.player, chips: buyIn.chips }))
-      .reduce(
-        (acc, cur) => {
-          const player = acc.find((p) => p.id === cur.id);
-          if (player) {
-            player.chips += cur.chips;
-          } else {
-            acc.push(cur);
-          }
-          return acc;
-        },
-        []
-      );
+      .map((buyIn) => ({ ...buyIn.player, chips: buyIn.chips }))
+      .reduce((acc, cur) => {
+        const player = acc.find((p) => p.id === cur.id);
+        if (player) {
+          player.chips += cur.chips;
+        } else {
+          acc.push(cur);
+        }
+        return acc;
+      }, []);
 
     for (const cashOut of game.cashOuts) {
       const player = gamePlayers.find((p) => p.id === cashOut.player.id);

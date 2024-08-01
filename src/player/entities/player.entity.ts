@@ -1,5 +1,4 @@
-import { BuyIn } from 'src/game/entities/buy-in.entity';
-import { CashOut } from 'src/game/entities/cash-out.entity';
+import { BuyIn, CashOut } from '../../game/entities';
 import {
   Column,
   CreateDateColumn,
