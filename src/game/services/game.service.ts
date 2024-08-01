@@ -26,6 +26,9 @@ export class GameService {
       relations: {
         buyIns: {
           player: true
+        },
+        cashOuts: {
+          player: true
         }
       }
     })

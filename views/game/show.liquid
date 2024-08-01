@@ -2,12 +2,23 @@
 {% block 'content' %}
 <h1>Jogo #{{ game.id }}</h1>
 <p>{{ game.createdAt }}</p>
+<strong>Dólar: U$ {{ game.dolar | divided_by: 100 }}</strong>
 
+{% assign buyInChips =  game.buyIns | sum: 'chips' %}
+<p>Fichas compradas: {{ buyInChips }} ({{ buyInChips | times: game.dolar | divided_by: 10000 | BRL }})</p>
+{% assign cashOutChips =  game.cashOuts | sum: 'chips' %}
+<p>Fichas retiradas: {{ cashOutChips }} ({{ cashOutChips | times: game.dolar | divided_by: 10000 | BRL }})</p>
+{% assign inGameChips =  buyInChips | minus: cashOutChips %}
+<strong>Fichas no jogo: {{ inGameChips }} ({{ inGameChips | times: game.dolar | divided_by: 10000 | BRL }}) </strong>
+
+<hr />
+
+<h2>Buy In</h2>
 <form id="new-buyin" action="/game/{{ game.id }}/buy-in" method="post" enctype="x-www-formurlencoded">
   <label for="playerId">Jogador</label>
   <select id="playerId" name="playerId" required>
     <option value="" selected disabled hidden>Selecione o Jogador</option>
-    {% for player in players %}
+    {% for player in allPlayers %}
       <option value="{{ player.id }}">{{ player.name }}</option>
     {% endfor %}
   </select>
@@ -18,14 +29,59 @@
     Cadastrar BuyIn
   </button>
 </form>
-
 {% unless game.buyIns == empty %}
   <ul>
     {% for buyIn in game.buyIns %}
-      <li>[{{ buyIn.createdAt }}] {{ buyIn.player.name }} - Chips: {{ buyIn.chips }}</li>
+      <li>
+        [{{ buyIn.createdAt }}] {{ buyIn.player.name }} - Fichas: {{ buyIn.chips }}
+      </li>
     {% endfor %}
   </ul>
 {% else %}
   <p>Nenhum Buy In cadastrado</p>
 {% endunless %}
+
+<h2>Jogadores</h2>
+{% unless gamePlayers == empty %}
+  <ul>
+    {% for player in gamePlayers %}
+      <li>
+        {{ player.name }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Nenhum jogador</p>
+{% endunless %}
+
+<h2>Cash Out</h2>
+<form id="new-cashout" action="/game/{{ game.id }}/cash-out" method="post" enctype="x-www-formurlencoded">
+  <label for="playerId">Jogador</label>
+  <select id="playerId" name="playerId" required>
+    <option value="" selected disabled hidden>Selecione o Jogador</option>
+    {% for player in gamePlayers %}
+      <option value="{{ player.id }}">{{ player.name }}</option>
+    {% endfor %}
+  </select>
+  <label for="chips">Valor em Fichas</label>
+  <input id="chips" type="number" name="chips" min="1" max="{{ inGameChips }}" required />
+  <small>Valor em somado das fichas do jogador. Ex.:  820</small>
+  <button type="submit">
+    Cadastrar CashOut
+  </button>
+</form>
+
+{% unless game.cashOuts == empty %}
+  <ul>
+    {% for cashOut in game.cashOuts %}
+      <li>
+        {{ cashOut.player.name }} - Fichas: {{ cashOut.chips }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Nenhum cash out</p>
+{% endunless %}
+
+
 {% endblock %}

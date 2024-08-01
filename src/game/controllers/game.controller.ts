@@ -29,9 +29,17 @@ export class GameController {
   @Get(':id')
   @Render('game/show')
   async findOne(@Param('id', ParseIntPipe) id: number) {
+    const game = await this.gameService.findOne(id) 
+    const gamePlayers = game.buyIns
+      .map((buyIn) => buyIn.player)
+      .filter((player, index, arr) =>
+        arr.findIndex(p => (p.id === player.id)) === index
+      )
+
     return { 
-      game: await this.gameService.findOne(id),
-      players: await this.playerService.findAll()
+      game,
+      gamePlayers,
+      allPlayers: await this.playerService.findAll()
     };
   }
 
