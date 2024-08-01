@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { GameService } from './game/services';
-import { Player } from './player/entities/player.entity';
 
 @Injectable()
 export class AppService {

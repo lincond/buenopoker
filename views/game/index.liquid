@@ -1,30 +1,67 @@
 {% layout 'default.liquid' %}
 {% block 'content' %}
-<h1>Jogos</h1>
+<h1 class="text-2xl dark:text-white font-bold mb-4">Jogos</h1>
 
-<form id="new-game" method="post" enctype="x-www-formurlencoded">
-  <label for="dolar">Valor Dólar</label>
-  <input id="dolar" type="number" name="dolar" min="100" max="1000" required />
-  <small>Valor em centavos. Ex.: R$ 5,50 = 550</small>
-  <label for="royalFlushFee">Taxa Royal Flush</label>
-  <input id="royalFlushFee" type="number" name="royalFlushFee" min="1" max="99" required />
-  <small>Valor em % sem casas decimais. Ex.: 1% = 1</small>
-  <button type="submit">
+
+<h2 class="text-lg dark:text-white font-bold mb-2">Novo Jogo</h1>
+<form id="new-game" class="mb-4" method="post" enctype="x-www-formurlencoded">
+  <div class="mb-3">
+    <label for="dolar" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Valor Dólar</label>
+    <input id="dolar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="dolar" min="100" max="1000" value="550" required />
+    <small class="mt-2 text-sm text-gray-500 dark:text-gray-400">Valor em centavos. Ex.: R$ 5,50 = 550</small>
+  </div>
+
+  <div class="mb-3">
+    <label for="royalFlushFee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Taxa Royal Flush</label>
+    <input id="royalFlushFee" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="royalFlushFee" min="1" max="99" value="2" required />
+    <small class="mt-2 text-sm text-gray-500 dark:text-gray-400">Valor em % sem casas decimais. Ex.: 1% = 1</small>
+  </div>
+
+  <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
     Cadastrar jogo
   </button>
 </form>
 
+<hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
+
+<h2 class="text-lg dark:text-white font-bold mb-3">Jogos</h1>
 {% unless games == empty %}
-  <ul>
-    {% for game in games %}
-      <li>
-        <a href="/game/{{ game.id }}">
-          [{{ game.createdAt }}] {{ game.id }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          #
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Data
+        </th>
+        <th scope="col" class="px-6 py-3">
+          -
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for game in games %}
+        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <a href="/game/{{ game.id }}">{{ game.id }}</a>
+          </th>
+          <td class="px-6 py-4">
+            {{ game.createdAt | date: "%d/%m/%Y %H:%M" }}
+          </td>
+          <td class="px-6 py-4">
+            <a href="/game/{{ game.id }}" type="button" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              Ver
+            </button>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% else %}
   <p>Nenhum jogo cadastrado</p>
 {% endunless %}
+
 {% endblock %}

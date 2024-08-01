@@ -26,6 +26,9 @@ export class GameService {
           player: true,
         },
       },
+      order: {
+        createdAt: -1,
+      },
     });
   }
 
