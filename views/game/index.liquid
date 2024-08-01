@@ -17,7 +17,11 @@
 {% unless games == empty %}
   <ul>
     {% for game in games %}
-      <li>[{{ game.createdAt }}] {{ game.id }}</li>
+      <li>
+        <a href="/game/{{ game.id }}">
+          [{{ game.createdAt }}] {{ game.id }}
+        </a>
+      </li>
     {% endfor %}
   </ul>
 {% else %}
