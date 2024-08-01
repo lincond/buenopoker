@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePlayerDto } from './dto/create-player.dto';
-import { UpdatePlayerDto } from './dto/update-player.dto';
 import { Repository } from 'typeorm';
 import { Player } from './entities/player.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,19 +16,12 @@ export class PlayerService {
     return await this.playerRepository.save(player);
   }
 
-  findAll() {
-    return this.playerRepository.find();
+  async findAll() {
+    return await this.playerRepository.find();
   }
 
-  findOne(id: number) {
-    return this.playerRepository.findOne({ where: { id } });
+  async findOne(id: number) {
+    return await this.playerRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updatePlayerDto: UpdatePlayerDto) {
-    return `This action updates a #${id} player`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} player`;
-  }
 }
