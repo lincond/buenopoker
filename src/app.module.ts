@@ -5,8 +5,7 @@ import { PlayerModule } from './player/player.module';
 import { Player } from './player/entities/player.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GameModule } from './game/game.module';
-import { BuyIn } from './game/entities/buy-in.entity';
-import { Game } from './game/entities/game.entity';
+import { Game, BuyIn, CashOut  } from './game/entities';
 
 @Module({
   imports: [
@@ -14,7 +13,7 @@ import { Game } from './game/entities/game.entity';
       type: 'sqlite',
       database: 'db/sql',
       synchronize: true,
-      entities: [Player, BuyIn, Game],
+      entities: [Player, BuyIn, CashOut, Game],
     }),
     PlayerModule,
     GameModule

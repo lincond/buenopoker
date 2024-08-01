@@ -1,5 +1,6 @@
 import { Entity, Column, CreateDateColumn, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { BuyIn } from "./buy-in.entity";
+import { CashOut } from "./cash-out.entity";
 
 @Entity()
 export class Game {
@@ -14,6 +15,9 @@ export class Game {
 
   @OneToMany(() => BuyIn, (buyIn) => buyIn.game)
   buyIns: BuyIn[];
+
+  @OneToMany(() => CashOut, (cashOut) => cashOut.game)
+  cashOuts: CashOut[];
 
   @CreateDateColumn()
   createdAt: Date;
