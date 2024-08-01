@@ -15,6 +15,6 @@ export class PlayerController {
   @Get()
   @Render('player/index')
   async findAll() {
-    return { players: this.playerService.findAll() };
+    return { players: await this.playerService.findAll() };
   }
 }
