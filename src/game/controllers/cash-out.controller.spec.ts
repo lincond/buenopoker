@@ -18,8 +18,8 @@ describe('CashOutController', () => {
             findAll: jest.fn(),
             findOne: jest.fn(),
           },
-        }
-      ]
+        },
+      ],
     }).compile();
 
     controller = module.get<CashOutController>(CashOutController);
@@ -36,7 +36,7 @@ describe('CashOutController', () => {
     const gameId = 1;
 
     const response = {
-      redirect: jest.fn()
+      redirect: jest.fn(),
     } as unknown as any;
 
     it('deve criar um cash-out', async () => {
@@ -49,4 +49,3 @@ describe('CashOutController', () => {
     });
   });
 });
-

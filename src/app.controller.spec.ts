@@ -9,12 +9,14 @@ describe('AppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [{
-        provide: AppService,
-        useValue: {
-          getPlayerRanking: jest.fn(),
+      providers: [
+        {
+          provide: AppService,
+          useValue: {
+            getPlayerRanking: jest.fn(),
+          },
         },
-      }],
+      ],
     }).compile();
 
     appController = app.get<AppController>(AppController);
@@ -27,10 +29,14 @@ describe('AppController', () => {
         { player: 'John Doe', sum: 100 },
         { player: 'Jane Doe', sum: 200 },
       ];
-      jest.spyOn(appService, 'getPlayerRanking').mockResolvedValue(playerRanking);
+      jest
+        .spyOn(appService, 'getPlayerRanking')
+        .mockResolvedValue(playerRanking);
 
-      expect(await appController.getPlayerRanking()).toEqual({ ranking: playerRanking });
+      expect(await appController.getPlayerRanking()).toEqual({
+        ranking: playerRanking,
+      });
       expect(appService.getPlayerRanking).toHaveBeenCalled();
     });
-  }); 
+  });
 });

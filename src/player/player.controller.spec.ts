@@ -19,7 +19,7 @@ describe('PlayerController', () => {
             findAll: jest.fn(),
             findOne: jest.fn(),
           },
-        }
+        },
       ],
     }).compile();
 

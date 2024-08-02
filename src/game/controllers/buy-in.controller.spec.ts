@@ -18,8 +18,8 @@ describe('BuyInController', () => {
             findAll: jest.fn(),
             findOne: jest.fn(),
           },
-        }
-      ]
+        },
+      ],
     }).compile();
 
     controller = module.get<BuyInController>(BuyInController);
@@ -36,7 +36,7 @@ describe('BuyInController', () => {
     const gameId = 1;
 
     const response = {
-      redirect: jest.fn()
+      redirect: jest.fn(),
     } as unknown as any;
 
     it('deve criar um buy-in', async () => {
