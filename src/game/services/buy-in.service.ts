@@ -34,7 +34,9 @@ export class BuyInService {
     const value = (game.dolar * createBuyInDto.chips) / 10_000;
     this.logger.debug(`Valor do Pix: R$ ${value.toFixed(2)}`);
 
-    this.logger.debug(`Gerando Pix para ${game.pixName} na chave: ${game.pixKey}`)
+    this.logger.debug(
+      `Gerando Pix para ${game.pixName} na chave: ${game.pixKey}`,
+    );
     const qrCodePix = QrCodePix({
       version: '01',
       key: game.pixKey,

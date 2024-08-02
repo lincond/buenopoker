@@ -9,13 +9,13 @@ import { QrCodePix } from 'qrcode-pix';
 
 const QrCodePixMock = {
   payload: jest.fn().mockReturnValue('payload'),
-  base64: jest.fn().mockResolvedValue('base64')
-}
+  base64: jest.fn().mockResolvedValue('base64'),
+};
 
 jest.mock('qrcode-pix', () => {
   return {
-    QrCodePix: jest.fn(() => QrCodePixMock)
-  }
+    QrCodePix: jest.fn(() => QrCodePixMock),
+  };
 });
 
 describe('BuyInService', () => {
@@ -68,7 +68,7 @@ describe('BuyInService', () => {
       const dto = { playerId: 1, chips: 100 };
       const game = new Game({ id: 1 });
       const player = new Player({ id: 1 });
-      const pix = new Pix({ payload: 'payload', base64: 'base64' })
+      const pix = new Pix({ payload: 'payload', base64: 'base64' });
       const buyIn = new BuyIn({ id: 1, game, player, pix, chips: 100 });
 
       jest.spyOn(gameRepository, 'findOne').mockResolvedValue(game);

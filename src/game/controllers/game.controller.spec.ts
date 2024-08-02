@@ -42,7 +42,12 @@ describe('GameController', () => {
     expect(playerService).toBeDefined();
   });
 
-  const dto = { dolar: 550, royalFlushFee: 2, pixName: 'pixName', pixKey: 'pixKey' };
+  const dto = {
+    dolar: 550,
+    royalFlushFee: 2,
+    pixName: 'pixName',
+    pixKey: 'pixKey',
+  };
   const gameId = 1;
   const player = new Player({ id: 1 });
   const player2 = new Player({ id: 2 });
