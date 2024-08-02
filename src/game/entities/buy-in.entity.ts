@@ -4,10 +4,12 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Game } from './game.entity';
+import { Pix } from './pix.entity';
 
 @Entity()
 export class BuyIn {
@@ -16,6 +18,9 @@ export class BuyIn {
 
   @Column({ type: 'int' })
   chips: number;
+
+  @OneToOne(() => Pix, (pix) => pix.buyIn)
+  pix: Pix;
 
   @ManyToOne(() => Player, (player) => player.buyIns)
   player: Player;
