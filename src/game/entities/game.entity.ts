@@ -20,6 +20,12 @@ export class Game {
   @Column({ type: 'int' })
   royalFlushFee: number;
 
+  @Column()
+  pixKey: string;
+
+  @Column()
+  pixName: string;
+
   @OneToMany(() => BuyIn, (buyIn) => buyIn.game)
   buyIns: BuyIn[];
 
