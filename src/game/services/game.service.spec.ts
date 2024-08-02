@@ -19,7 +19,7 @@ describe('GameService', () => {
             findOne: jest.fn(),
             save: jest.fn(),
           },
-        }
+        },
       ],
     }).compile();
 
@@ -56,11 +56,11 @@ describe('GameService', () => {
           },
           cashOuts: {
             player: true,
-          }
+          },
         },
         order: {
-          createdAt: -1
-        }
+          createdAt: -1,
+        },
       });
     });
   });

@@ -66,7 +66,9 @@ describe('BuyInService', () => {
 
       expect(gameRepository.findOne).toHaveBeenCalledWith({ where: { id: 1 } });
       expect(playerService.findOne).toHaveBeenCalledWith(1);
-      expect(repository.save).toHaveBeenCalledWith(new BuyIn({ player, game, chips: dto.chips }));
+      expect(repository.save).toHaveBeenCalledWith(
+        new BuyIn({ player, game, chips: dto.chips }),
+      );
     });
 
     it('deve lançar um erro se o jogo não existir', async () => {
