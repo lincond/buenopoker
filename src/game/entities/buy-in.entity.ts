@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -20,6 +21,7 @@ export class BuyIn {
   chips: number;
 
   @OneToOne(() => Pix, (pix) => pix.buyIn, { cascade: ['insert'] })
+  @JoinColumn()
   pix: Pix;
 
   @ManyToOne(() => Player, (player) => player.buyIns)

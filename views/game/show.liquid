@@ -54,6 +54,9 @@
         <th scope="col" class="px-6 py-3">
           Entrada
         </th>
+        <th scope="col" class="px-6 py-3">
+          Pix
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -67,6 +70,9 @@
           </td>
           <td class="px-6 py-4">
             {{ buyIn.createdAt | date: "%H:%M" }}
+          </td>
+          <td class="px-6 py-4">
+            <img alt="{{ buyIn.pix.payload }}" src="{{ buyIn.pix.base64 }}" width="64px" height="64px" />
           </td>
         </tr>
       {% endfor %}

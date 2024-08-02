@@ -38,6 +38,7 @@ export class GameService {
       relations: {
         buyIns: {
           player: true,
+          pix: true,
         },
         cashOuts: {
           player: true,
