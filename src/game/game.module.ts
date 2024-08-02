@@ -7,10 +7,13 @@ import {
   BuyInController,
   CashOutController,
 } from './controllers';
-import { Game, BuyIn, CashOut } from './entities';
+import { Game, BuyIn, CashOut, Pix } from './entities';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Game, BuyIn, CashOut]), PlayerModule],
+  imports: [
+    TypeOrmModule.forFeature([Game, BuyIn, CashOut, Pix]),
+    PlayerModule,
+  ],
   controllers: [GameController, BuyInController, CashOutController],
   providers: [GameService, BuyInService, CashOutService],
   exports: [GameService],

@@ -19,7 +19,7 @@ export class BuyIn {
   @Column({ type: 'int' })
   chips: number;
 
-  @OneToOne(() => Pix, (pix) => pix.buyIn)
+  @OneToOne(() => Pix, (pix) => pix.buyIn, { cascade: ['insert'] })
   pix: Pix;
 
   @ManyToOne(() => Player, (player) => player.buyIns)
