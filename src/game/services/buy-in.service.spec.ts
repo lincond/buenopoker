@@ -1,10 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BuyInService } from './buy-in.service';
 import { Repository } from 'typeorm';
-import { BuyIn, Game } from '../entities';
+import { BuyIn, Game, Pix } from '../entities';
 import { PlayerService } from '../../player/player.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Player } from '../../player/entities/player.entity';
+import { QrCodePix } from 'qrcode-pix';
+
+const QrCodePixMock = {
+  payload: jest.fn().mockReturnValue('payload'),
+  base64: jest.fn().mockResolvedValue('base64')
+}
+
+jest.mock('qrcode-pix', () => {
+  return {
+    QrCodePix: jest.fn(() => QrCodePixMock)
+  }
+});
 
 describe('BuyInService', () => {
   let service: BuyInService;
@@ -56,7 +68,8 @@ describe('BuyInService', () => {
       const dto = { playerId: 1, chips: 100 };
       const game = new Game({ id: 1 });
       const player = new Player({ id: 1 });
-      const buyIn = new BuyIn({ id: 1, game, player, chips: 100 });
+      const pix = new Pix({ payload: 'payload', base64: 'base64' })
+      const buyIn = new BuyIn({ id: 1, game, player, pix, chips: 100 });
 
       jest.spyOn(gameRepository, 'findOne').mockResolvedValue(game);
       jest.spyOn(playerService, 'findOne').mockResolvedValue(player);
@@ -67,8 +80,10 @@ describe('BuyInService', () => {
       expect(gameRepository.findOne).toHaveBeenCalledWith({ where: { id: 1 } });
       expect(playerService.findOne).toHaveBeenCalledWith(1);
       expect(repository.save).toHaveBeenCalledWith(
-        new BuyIn({ player, game, chips: dto.chips }),
+        new BuyIn({ player, game, pix, chips: dto.chips }),
       );
+      expect(QrCodePixMock.base64).toHaveBeenCalled();
+      expect(QrCodePixMock.payload).toHaveBeenCalled();
     });
 
     it('deve lançar um erro se o jogo não existir', async () => {
