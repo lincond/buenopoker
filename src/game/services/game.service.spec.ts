@@ -34,7 +34,7 @@ describe('GameService', () => {
 
   describe('create', () => {
     it('deve criar um jogo', async () => {
-      const dto = { dolar: 550, royalFlushFee: 2 };
+      const dto = { dolar: 550, royalFlushFee: 2, pixName: 'pixName', pixKey: 'pixKey' };
       const game = new Game({ id: 1, dolar: 550, royalFlushFee: 2 });
       jest.spyOn(repository, 'save').mockResolvedValue(game);
 
@@ -77,6 +77,7 @@ describe('GameService', () => {
         relations: {
           buyIns: {
             player: true,
+            pix: true,
           },
           cashOuts: {
             player: true,
