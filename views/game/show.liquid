@@ -161,7 +161,10 @@
             Fichas
           </th>
           <th scope="col" class="px-6 py-3">
-            Entrada
+            Valor
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Pix
           </th>
         </tr>
       </thead>
@@ -175,7 +178,14 @@
               {{ cashOut.chips }}
             </td>
             <td class="px-6 py-4">
-              {{ cashOut.createdAt | date: "%H:%M" }}
+              {{ cashOut.chips | times: game.dolar | divided_by: 10000 | BRL }}
+            </td>
+            <td class="px-6 py-4">
+              {% unless cashOut.paymentPixCode == blank %}
+                {{ cashOut.paymentPixCode }}
+              {% else %}
+                Jogador Zerado
+              {% endunless %}
             </td>
           </tr>
         {% endfor %}

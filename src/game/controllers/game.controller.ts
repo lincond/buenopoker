@@ -7,14 +7,17 @@ import {
   Res,
   Render,
   ParseIntPipe,
+  Logger,
 } from '@nestjs/common';
 import { GameService } from '../services';
 import { CreateGameDto } from '../dto/create-game.dto';
 import { Response } from 'express';
 import { PlayerService } from '../../player/player.service';
+import { QrCodePix } from 'qrcode-pix';
 
 @Controller('game')
 export class GameController {
+  private readonly logger = new Logger(GameController.name);
   constructor(
     private readonly gameService: GameService,
     private readonly playerService: PlayerService,
@@ -56,6 +59,28 @@ export class GameController {
       if (player) {
         player.chips -= cashOut.chips;
       }
+
+      if (cashOut.chips <= 0) {
+        this.logger.debug(
+          `Pulando geração do QrCodePix pois as fichas do jogador ${cashOut.player.name} são 0`,
+        );
+        continue;
+      }
+
+      const value = (cashOut.chips * game.dolar) / 10_000;
+      this.logger.debug(
+        `Valor CashOut ${cashOut.id} para o player ${cashOut.player.name} no valor: R$ ${value.toFixed(2)}`,
+      );
+      const qrCodePix = QrCodePix({
+        version: '01',
+        key: player.pix,
+        name: player.name,
+        city: 'GOIANIA',
+        message: `Cash Out #${cashOut.id}`,
+        cep: '74223230',
+        value,
+      });
+      cashOut['paymentPixCode'] = qrCodePix.payload();
     }
 
     return {
