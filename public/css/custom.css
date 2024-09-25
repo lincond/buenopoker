@@ -1,0 +1,4 @@
+input#qr-modal-toggle:checked~#qrModal {
+  opacity: 1;
+  pointer-events: auto;
+}
