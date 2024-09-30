@@ -982,8 +982,8 @@ video {
 }
 
 input#qr-modal-toggle:checked~#qr-modal {
-  opacity: 1;
   pointer-events: auto;
+  opacity: 1;
 }
 
 .odd\:bg-white:nth-child(odd) {

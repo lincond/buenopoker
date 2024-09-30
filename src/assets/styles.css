@@ -3,6 +3,5 @@
 @tailwind utilities;
 
 input#qr-modal-toggle:checked~#qr-modal {
-  opacity: 1;
-  pointer-events: auto;
+  @apply opacity-100 pointer-events-auto;
 }
