@@ -60,7 +60,7 @@
       </tr>
     </thead>
     <tbody>
-    {% for buyIn in game.buyIns %}
+      {% for buyIn in game.buyIns %}
         <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             {{ buyIn.player.name }}
@@ -77,7 +77,7 @@
               <img src="/image/logo.svg" class="h-8 absolute z-10 top-6 left-4 opacity-80" alt="Bueno Poker Logo" />
               <img alt="{{ buyIn.pix.payload }}" src="{{ buyIn.pix.base64 }}" class="h-16 absolute top-2 left-0 z-0" />
             </label>
-            <div class="fixed z-10 inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" id="qrModal">
+            <div class="fixed z-10 inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" id="qr-modal">
               <label for="qr-modal-toggle" class="absolute inset-0 cursor-pointer"></label>
               <div class="bg-white p-6 rounded-lg w-96 aspect-square flex flex-col items-center justify-center relative">
                 <label for="qr-modal-toggle" class="absolute top-2 right-4 text-gray-500 cursor-pointer text-xl">&times;</label>

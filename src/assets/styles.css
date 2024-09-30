@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input#qr-modal-toggle:checked~#qr-modal {
+  opacity: 1;
+  pointer-events: auto;
+}

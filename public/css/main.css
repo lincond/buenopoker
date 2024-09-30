@@ -689,10 +689,6 @@ video {
   height: 1px;
 }
 
-.w-16 {
-  width: 4rem;
-}
-
 .w-24 {
   width: 6rem;
 }
@@ -983,6 +979,11 @@ video {
 
 .duration-300 {
   transition-duration: 300ms;
+}
+
+input#qr-modal-toggle:checked~#qr-modal {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .odd\:bg-white:nth-child(odd) {
