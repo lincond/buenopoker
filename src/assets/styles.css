@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Exibição do modal do QR-code gerado para o PIX */
+input#qr-modal-buyin-toggle:checked~#qr-modal {
+  @apply opacity-100 pointer-events-auto;
+}
+
+input#qr-modal-cashout-toggle:checked~#qr-modal {
+  @apply opacity-100 pointer-events-auto;
+}
+
+/* Gerenciamento da tab-bar na tela de jogos */
+.tab-content section {
+  @apply hidden;
+}
+
+.fill-grey-800 {
+  @apply text-gray-800;
+}
+
+#tab-1:checked~.tab-content #tab-content-1,
+#tab-2:checked~.tab-content #tab-content-2,
+#tab-3:checked~.tab-content #tab-content-3 {
+  @apply block;
+}
+
+#tab-1:checked~ul>li>label[for="tab-1"],
+#tab-2:checked~ul>li>label[for="tab-2"],
+#tab-3:checked~ul>li>label[for="tab-3"] {
+  @apply bg-blue-700 text-white;
+}
+
+#tab-1:checked~ul>li>label[for="tab-1"]>svg,
+#tab-2:checked~ul>li>label[for="tab-2"]>svg,
+#tab-3:checked~ul>li>label[for="tab-3"]>svg {
+  @apply text-white fill-current;
+}
