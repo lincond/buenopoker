@@ -3,26 +3,40 @@ import { GameService } from './game/services';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly gameSerivce: GameService) {}
+  constructor(private readonly gameSerivce: GameService) { }
 
-  async getPlayerRanking() {
+  async getPlayerRanking(sortByKey: string) {
     const games = await this.gameSerivce.findAll();
-    const playersCashOutSum = new Map<number, number>();
-    const playersNames = new Map<number, string>();
+    const totalCashOutByPlayerId = new Map<number, number>();
+    const totalBuyInByPlayerId = new Map<number, number>();
+    const playerNamesByPlayerId = new Map<number, string>();
 
     for (const game of games) {
       for (const cashOut of game.cashOuts) {
-        const playerCashOutSum = playersCashOutSum.get(cashOut.player.id) || 0;
-        playersCashOutSum.set(
+        const playerCashOutSum =
+          totalCashOutByPlayerId.get(cashOut.player.id) || 0;
+        totalCashOutByPlayerId.set(
           cashOut.player.id,
           playerCashOutSum + cashOut.chips,
         );
-        playersNames.set(cashOut.player.id, cashOut.player.name);
+        playerNamesByPlayerId.set(cashOut.player.id, cashOut.player.name);
+      }
+
+      for (const buyIn of game.buyIns) {
+        const playerBuyInSum = totalBuyInByPlayerId.get(buyIn.player.id) || 0;
+        totalBuyInByPlayerId.set(buyIn.player.id, playerBuyInSum + buyIn.chips);
       }
     }
 
-    return Array.from(playersCashOutSum.entries())
-      .map(([playerId, sum]) => ({ player: playersNames.get(playerId), sum }))
-      .sort((a, b) => b.sum - a.sum);
+    return Array.from(playerNamesByPlayerId.entries())
+      .map(([playerId, player]) => {
+        const buyin = totalBuyInByPlayerId.get(playerId);
+        const cashout = totalCashOutByPlayerId.get(playerId);
+        const nett = cashout - buyin;
+        const percent = buyin > 0 ? (nett / buyin) * 100 : 0;
+
+        return { player, buyin, cashout, nett, percent };
+      })
+      .sort((a, b) => b[sortByKey] - a[sortByKey]);
   }
 }
