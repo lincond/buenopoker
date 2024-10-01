@@ -87,7 +87,9 @@ export class GameController {
     return {
       game,
       gamePlayers,
-      allPlayers: await this.playerService.findAll(),
+      allPlayers: (await this.playerService.findAll()).sort((a, b) =>
+        a.name > b.name ? 1 : a.name == b.name ? 0 : -1,
+      ),
     };
   }
 }
