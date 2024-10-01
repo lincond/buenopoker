@@ -725,18 +725,6 @@ video {
   height: 1px;
 }
 
-.max-h-10 {
-  max-height: 2.5rem;
-}
-
-.max-h-8 {
-  max-height: 2rem;
-}
-
-.max-h-12 {
-  max-height: 3rem;
-}
-
 .max-h-11 {
   max-height: 2.75rem;
 }
@@ -900,10 +888,6 @@ video {
 
 .rounded-md {
   border-radius: 0.375rem;
-}
-
-.rounded-sm {
-  border-radius: 0.125rem;
 }
 
 .rounded-b-lg {
@@ -1568,11 +1552,6 @@ input#qr-modal-cashout-toggle:checked~#qr-modal {
   .dark\:text-blue-500 {
     --tw-text-opacity: 1;
     color: rgb(59 130 246 / var(--tw-text-opacity));
-  }
-
-  .dark\:text-gray-300 {
-    --tw-text-opacity: 1;
-    color: rgb(209 213 219 / var(--tw-text-opacity));
   }
 
   .dark\:text-gray-400 {
