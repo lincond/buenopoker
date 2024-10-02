@@ -35,6 +35,7 @@ describe('AppController', () => {
 
       expect(await appController.getPlayerRanking()).toEqual({
         ranking: playerRanking,
+        sortedBy: 'nett',
       });
       expect(appService.getPlayerRanking).toHaveBeenCalled();
     });
