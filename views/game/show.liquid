@@ -85,8 +85,8 @@
 </article>
 
 <div class="md:flex tabs-container bg-gray-50 dark:bg-gray-800 rounded-lg md:bg-transparent md:dark:bg-transparent">
-	<input {% if gameFinished %}checked{% endif %} type="radio" id="tab-1" name="tab-control" class="hidden">
-	<input {% if gameNotStarted or gameInProgress %}checked{% endif %} type="radio" id="tab-2" name="tab-control" class="hidden">
+	<input {% if gameNotStarted or gameFinished %}checked{% endif %} type="radio" id="tab-1" name="tab-control" class="hidden">
+	<input {% if gameInProgress %}checked{% endif %} type="radio" id="tab-2" name="tab-control" class="hidden">
 	<input {% if gameInBalance %}checked{% endif %} type="radio" id="tab-3" name="tab-control" class="hidden">
 
 	<div class="sm-tabs block md:hidden bg-gray-50 dark:bg-gray-800 rounded-t-lg border-b border-gray-200 dark:border-gray-700">
