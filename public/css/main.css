@@ -846,6 +846,10 @@ video {
   align-items: flex-start;
 }
 
+.items-end {
+  align-items: flex-end;
+}
+
 .items-center {
   align-items: center;
 }
@@ -1647,6 +1651,10 @@ input#qr-modal-cashout-toggle:checked~#qr-modal {
 
   .md\:pl-2\.5 {
     padding-left: 0.625rem;
+  }
+
+  .md\:pb-4 {
+    padding-bottom: 1rem;
   }
 
   .md\:text-2xl {

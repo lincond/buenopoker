@@ -43,25 +43,25 @@
     </div>
   </a>
 
-  <div class="min-w-fit flex-1 md:min-w-96 md:flex-initial flex items-center p-2 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
+  <div class="min-w-fit flex-1 md:min-w-96 md:flex-initial flex items-center p-4 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
     <div class="text-gray-500 dark:text-white w-full">
       <div class="relative overflow-x-auto">
         <table class="w-full text-xs md:text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <tbody>
             <tr class="w-fit md:w-full bg-white dark:bg-gray-800">
-              <th scope="row" class="px-3 py-2 md:px-6 md:py-4 font-medium text-gray-800 whitespace-nowrap dark:text-white">
+              <th scope="row" class="px-3 py-2 md:pb-4 font-medium text-gray-800 whitespace-nowrap dark:text-white">
                 🪙 <span class="hidden md:inline">Fichas compradas</span>
               </th>
-              <td class="px-3 py-2 md:px-6 md:py-4 text-right w-full">
+              <td class="px-3 py-2 md:pb-4 text-right w-full">
                 <b>{{ buyInChips }}</b>
                 <sup>{{ buyInChips | times: game.dolar | divided_by: 10000 | BRL }}</sup>
               </td>
             </tr>
-            <tr class="w-fit md:w-full bg-white dark:bg-gray-800">
-              <th scope="row" class="px-3 py-2 md:px-6 md:py-4 font-medium text-gray-800 whitespace-nowrap dark:text-white">
+            <tr class="w-fit md:w-full bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+              <th scope="row" class="px-3 py-2 md:pb-4 font-medium text-gray-800 whitespace-nowrap dark:text-white">
                 💸 <span class="hidden md:inline">Fichas retiradas</span>
               </th>
-              <td class="px-3 py-2 md:px-6 md:py-4 text-right w-full">
+              <td class="px-3 py-2 md:pb-4 text-right w-full">
                 <b>{{ cashOutChips | times: -1 }}</b>
                 <sup>{{ cashOutChips | times: game.dolar | divided_by: 10000 | BRL }}</sup>
               </td>
@@ -69,10 +69,10 @@
           </tbody>
           <tfoot>
             <tr class="w-fit md:w-full font-semibold bg-grey-100 rounded-b-lg dark:bg-gray-900 text-gray-900 dark:text-white">
-              <th scope="row" class="px-3 py-2 md:px-6 md:py-4 text-base">
+              <th scope="row" class="px-3 py-2 text-base">
                 🤑 <span class="hidden md:inline">Em jogo</span>
               </th>
-              <td class="px-3 py-2 md:px-6 md:py-4 text-right">
+              <td class="px-3 py-2 text-right">
                 {{ inGameChips }}
                 <sup>{{ inGameChips | times: game.dolar | divided_by: 10000 | BRL }}</sup>
               </td>
