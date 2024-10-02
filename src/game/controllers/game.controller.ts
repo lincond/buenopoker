@@ -69,7 +69,7 @@ export class GameController {
 
       const value = (cashOut.chips * game.dolar) / 10_000;
       this.logger.debug(
-        `Valor CashOut ${cashOut.id} para o player ${cashOut.player.name} no valor: R$ ${value.toFixed(2)}`,
+        `Valor CashOut ${cashOut.id} para o player ${cashOut.player.name} no valor: R$ ${(+value).toFixed(2)}`,
       );
       const qrCodePix = QrCodePix({
         version: '01',

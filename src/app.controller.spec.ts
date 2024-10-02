@@ -26,8 +26,8 @@ describe('AppController', () => {
   describe('getPlayerRanking', () => {
     it('should return the player ranking', async () => {
       const playerRanking = [
-        { player: 'John Doe', sum: 100 },
-        { player: 'Jane Doe', sum: 200 },
+        { player: 'Bebeto', buyin: 500, cashout: 10, nett: -490, percent: -98 },
+        { player: 'Zico', buyin: 500, cashout: 890, nett: 390, percent: 78 },
       ];
       jest
         .spyOn(appService, 'getPlayerRanking')

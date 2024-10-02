@@ -5,6 +5,17 @@ import { PlayerService } from '../../player/player.service';
 import { BuyIn, CashOut, Game } from '../entities';
 import { Player } from '../../player/entities/player.entity';
 
+const QrCodePixMock = {
+  payload: jest.fn().mockReturnValue('payload'),
+  base64: jest.fn().mockResolvedValue('base64'),
+};
+
+jest.mock('qrcode-pix', () => {
+  return {
+    QrCodePix: jest.fn(() => QrCodePixMock),
+  };
+});
+
 describe('GameController', () => {
   let controller: GameController;
   let service: GameService;
@@ -99,6 +110,29 @@ describe('GameController', () => {
         game,
         gamePlayers,
         allPlayers: [player],
+      });
+      expect(service.findOne).toHaveBeenCalledWith(gameId);
+      expect(playerService.findAll).toHaveBeenCalled();
+    });
+  });
+
+  describe('findOne', () => {
+    it('deve retornar a lista de jogadores em ordem alfabética', async () => {
+      const gamePlayers = [
+        { id: 1, chips: 100 },
+        { id: 2, chips: 100 },
+      ];
+      const namedPlayer = { ...player, name: 'Ronaldo' };
+      const namedPlayer2 = { ...player, name: 'Neymar' };
+      jest.spyOn(service, 'findOne').mockResolvedValue(game);
+      jest
+        .spyOn(playerService, 'findAll')
+        .mockResolvedValue([namedPlayer, namedPlayer2]);
+
+      expect(await controller.findOne(gameId)).toEqual({
+        game,
+        gamePlayers,
+        allPlayers: [namedPlayer2, namedPlayer],
       });
       expect(service.findOne).toHaveBeenCalledWith(gameId);
       expect(playerService.findAll).toHaveBeenCalled();
