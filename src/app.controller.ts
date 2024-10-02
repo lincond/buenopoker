@@ -7,7 +7,10 @@ export class AppController {
 
   @Get()
   @Render('index')
-  async getPlayerRanking(@Query('sortBy') sortByKey: string = 'nett') {
-    return { ranking: await this.appService.getPlayerRanking(sortByKey) };
+  async getPlayerRanking(@Query('sortBy') sortedBy: string = 'nett') {
+    return {
+      ranking: await this.appService.getPlayerRanking(sortedBy),
+      sortedBy,
+    };
   }
 }
