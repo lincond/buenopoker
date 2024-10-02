@@ -26,14 +26,26 @@ input#qr-modal-cashout-toggle:checked~#qr-modal {
   @apply block;
 }
 
-#tab-1:checked~ul>li>label[for="tab-1"],
-#tab-2:checked~ul>li>label[for="tab-2"],
-#tab-3:checked~ul>li>label[for="tab-3"] {
-  @apply bg-blue-700 text-white;
+#tab-1:checked~.md-tabs>ul>li>label[for="tab-1"],
+#tab-2:checked~.md-tabs>ul>li>label[for="tab-2"],
+#tab-3:checked~.md-tabs>ul>li>label[for="tab-3"] {
+  @apply bg-blue-700;
 }
 
-#tab-1:checked~ul>li>label[for="tab-1"]>svg,
-#tab-2:checked~ul>li>label[for="tab-2"]>svg,
-#tab-3:checked~ul>li>label[for="tab-3"]>svg {
+#tab-1:checked~.sm-tabs>ul>li>label[for="tab-1"],
+#tab-2:checked~.sm-tabs>ul>li>label[for="tab-2"],
+#tab-3:checked~.sm-tabs>ul>li>label[for="tab-3"] {
+  @apply border-white;
+}
+
+#tab-1:checked~div>ul>li>label[for="tab-1"],
+#tab-2:checked~div>ul>li>label[for="tab-2"],
+#tab-3:checked~div>ul>li>label[for="tab-3"] {
+  @apply text-white;
+}
+
+#tab-1:checked~div>ul>li>label[for="tab-1"]>svg,
+#tab-2:checked~div>ul>li>label[for="tab-2"]>svg,
+#tab-3:checked~div>ul>li>label[for="tab-3"]>svg {
   @apply text-white fill-current;
 }

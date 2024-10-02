@@ -1,4 +1,4 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Query, Render } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -7,7 +7,10 @@ export class AppController {
 
   @Get()
   @Render('index')
-  async getPlayerRanking() {
-    return { ranking: await this.appService.getPlayerRanking() };
+  async getPlayerRanking(@Query('sortBy') sortedBy: string = 'nett') {
+    return {
+      ranking: await this.appService.getPlayerRanking(sortedBy),
+      sortedBy,
+    };
   }
 }

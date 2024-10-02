@@ -5,7 +5,6 @@ import { BuyIn, Game, Pix } from '../entities';
 import { PlayerService } from '../../player/player.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Player } from '../../player/entities/player.entity';
-import { QrCodePix } from 'qrcode-pix';
 
 const QrCodePixMock = {
   payload: jest.fn().mockReturnValue('payload'),

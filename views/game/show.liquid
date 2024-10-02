@@ -1,179 +1,204 @@
 {% layout 'default.liquid' %}
 {% block 'content' %}
 
-<article class="mr-1/3vw w-1/3vw flex flex-wrap items-center justify-center space-x-4">
-	{% assign buyInChips = game.buyIns | sum: 'chips' %}
-	{% assign cashOutChips = game.cashOuts | sum: 'chips' %}
-	{% assign inGameChips = buyInChips | minus: cashOutChips %}
+<article class="w-full px-0.5 my-6 flex flex-row items-strech justify-center space-y-0 space-x-4">
+  {% assign buyInChips = game.buyIns | sum: 'chips' %}
+  {% assign cashOutChips = game.cashOuts | sum: 'chips' %}
+  {% assign inGameChips = buyInChips | minus: cashOutChips %}
 
-	{% assign gameNotStarted = inGameChips == 0 and buyInChips == 0 and cashOutChips == 0 %}
-	{% assign gameInProgress = inGameChips > 0 and buyInChips == inGameChips and cashOutChips == 0 %}
-	{% assign gameInBalance = inGameChips > 0 and buyInChips > 0 and cashOutChips > 0 %}
-	{% assign gameFinished = inGameChips == 0 and buyInChips > 0 and cashOutChips == buyInChips %}
+  {% assign gameNotStarted = inGameChips == 0 and buyInChips == 0 and cashOutChips == 0 %}
+  {% assign gameInProgress = inGameChips > 0 and buyInChips == inGameChips and cashOutChips == 0 %}
+  {% assign gameInBalance = inGameChips > 0 and buyInChips > 0 and cashOutChips > 0 %}
+  {% assign gameFinished = inGameChips == 0 and buyInChips > 0 and cashOutChips == buyInChips %}
 
-	{% assign uniquePlayerIdsInGame = game.buyIns | map: 'player.id' | uniq %}
+  {% assign uniquePlayerIdsInGame = game.buyIns | map: 'player.id' | uniq %}
 
-	<a 
-		{% if gameFinished %}
-			class="flex flex-col flex-1 h-46 p-0 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800"
-		{% else %}
-			href="https://g.co/kgs/d9kNc8t" target="_blank" class="flex flex-col flex-1 items-center h-46 p-0 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-		{% endif %}
-	>
-		<div class="flex flex-col justify-between p-4 leading-normal w-full">
-			<div class="w-full flex space-x-4 items-start justify-between">
-				<h1 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-					Jogo #{{ game.id }}
-				</h1>
-				{% if gameNotStarted %}
-					<span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Não iniciado</span>
-				{% elsif gameInProgress %}
-					<span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Em Andamento</span>
-				{% elsif gameInBalance %}
-					<span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Em balanço</span>
-				{% elsif gameFinished %}
-					<span class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">Finalizado</span>
-				{% endif %}
-			</div>
-			<small class="mb-3 font-normal text-gray-700 dark:text-gray-400">🗓️ Criado em {{ game.createdAt | date: "%d/%m/%Y %H:%M" }}</small>
-			<hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
-			<div class="text-gray-500 dark:text-white">
-				<strong>💵 Cotação do dólar - U$ {{ game.dolar | divided_by: 100 }}</strong>
-			</div>
-		</div>
-	</a>
+  <a
+		class="{% unless gameFinished %} hover:bg-gray-100 dark:hover:bg-gray-700 {% endunless %} min-w-fit flex-1 md:min-w-96 md:flex-initial flex flex-col md:flex-row p-0 bg-white border border-gray-200 rounded-lg shadow md:max-w-xl dark:border-gray-700 dark:bg-gray-800"
+    {% unless gameFinished %} href="https://g.co/kgs/d9kNc8t" target="_blank" {% endunless %}
+  >
+    <div class="flex flex-col justify-between p-4 leading-normal w-full">
+      <div class="w-full flex space-x-4 items-start justify-between">
+        <h1 class="mb-2 text-xl md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Jogo #{{ game.id }}
+        </h1>
+        {% if gameNotStarted %}
+          <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Não iniciado</span>
+        {% elsif gameInProgress %}
+          <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Em Andamento</span>
+        {% elsif gameInBalance %}
+          <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Em balanço</span>
+        {% elsif gameFinished %}
+          <span class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">Finalizado</span>
+        {% endif %}
+      </div>
+      <small class="mb-3 font-normal text-gray-700 dark:text-gray-400">🗓️ Criado em {{ game.createdAt | date: "%d/%m/%Y %H:%M" }}</small>
+      <hr class="hidden md:block h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
+      <div class="text-xs md:text-sm text-gray-500 dark:text-white">
+        <strong>💵 <span class="hidden md:inline">Cotação do dólar - </span>U$ {{ game.dolar | divided_by: 100 }}</strong>
+      </div>
+    </div>
+  </a>
 
-	<div class="flex flex-1 items-center h-46 p-1 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
-		<div class="text-gray-500 dark:text-white w-full">
-			<div class="relative overflow-x-auto">
-				<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-					<tbody>
-						<tr class="bg-white dark:bg-gray-800">
-							<th scope="row" class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap dark:text-white">
-								🪙 Fichas compradas
-							</th>
-							<td class="px-6 py-4 text-right w-full">
-								<b>{{ buyInChips }}</b>
-								<sup>{{ buyInChips | times: game.dolar | divided_by: 10000 | BRL }}</sup>
-							</td>
-						</tr>
-						<tr class="bg-white dark:bg-gray-800">
-							<th scope="row" class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap dark:text-white">
-								💸 Fichas retiradas
-							</th>
-							<td class="px-6 py-4 text-right w-full">
-								<b>{{ cashOutChips | times: -1 }}</b>
-								<sup>{{ cashOutChips | times: game.dolar | divided_by: 10000 | BRL }}</sup>
-							</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr class="font-semibold bg-grey-100 rounded-b-lg dark:bg-gray-900 text-gray-900 dark:text-white">
-							<th scope="row" class="px-6 py-3 text-base">
-								🤑 Em jogo
-							</th>
-							<td class="px-6 py-3 text-right">
-								{{ inGameChips }}
-								<sup>{{ inGameChips | times: game.dolar | divided_by: 10000 | BRL }}</sup>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-		</div>
-	</div>
+  <div class="min-w-fit flex-1 md:min-w-96 md:flex-initial flex items-center p-4 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
+    <div class="text-gray-500 dark:text-white w-full">
+      <div class="relative overflow-x-auto">
+        <table class="w-full text-xs md:text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <tbody>
+            <tr class="w-fit md:w-full bg-white dark:bg-gray-800">
+              <th scope="row" class="px-3 py-2 md:pb-4 font-medium text-gray-800 whitespace-nowrap dark:text-white">
+                🪙 <span class="hidden md:inline">Fichas compradas</span>
+              </th>
+              <td class="px-3 py-2 md:pb-4 text-right w-full">
+                <b>{{ buyInChips }}</b>
+                <sup>{{ buyInChips | times: game.dolar | divided_by: 10000 | BRL }}</sup>
+              </td>
+            </tr>
+            <tr class="w-fit md:w-full bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+              <th scope="row" class="px-3 py-2 md:pb-4 font-medium text-gray-800 whitespace-nowrap dark:text-white">
+                💸 <span class="hidden md:inline">Fichas retiradas</span>
+              </th>
+              <td class="px-3 py-2 md:pb-4 text-right w-full">
+                <b>{{ cashOutChips | times: -1 }}</b>
+                <sup>{{ cashOutChips | times: game.dolar | divided_by: 10000 | BRL }}</sup>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="w-fit md:w-full font-semibold bg-grey-100 rounded-b-lg dark:bg-gray-900 text-gray-900 dark:text-white">
+              <th scope="row" class="px-3 py-2 text-base">
+                🤑 <span class="hidden md:inline">Em jogo</span>
+              </th>
+              <td class="px-3 py-2 text-right">
+                {{ inGameChips }}
+                <sup>{{ inGameChips | times: game.dolar | divided_by: 10000 | BRL }}</sup>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
 </article>
 
-<hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
-
-<div class="md:flex tabs-container">
-	<input {% if gameFinished %}checked{% endif %} type="radio" id="tab-1" name="tab-control" class="hidden">
-	<input {% if gameNotStarted or gameInProgress %}checked{% endif %} type="radio" id="tab-2" name="tab-control" class="hidden">
+<div class="md:flex tabs-container bg-gray-50 dark:bg-gray-800 rounded-lg md:bg-transparent md:dark:bg-transparent">
+	<input {% if gameNotStarted or gameFinished %}checked{% endif %} type="radio" id="tab-1" name="tab-control" class="hidden">
+	<input {% if gameInProgress %}checked{% endif %} type="radio" id="tab-2" name="tab-control" class="hidden">
 	<input {% if gameInBalance %}checked{% endif %} type="radio" id="tab-3" name="tab-control" class="hidden">
-	<ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
-		<li class="w-32">
-			<label for="tab-1" role="button" class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
-				<svg class="w-6 h-6 text-gray-800 dark:text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-					<title>cards-playing</title>
-					<path d="M14.7 2.2H16.2C17.3 2.2 18.2 3.1 18.2 4.2V10.6L14.7 2.2M20.1 3.8L21.4 4.4C22.4 4.8 22.9 6 22.5 7L20.1 12.9V3.8M18 15.5L13 3.5C12.7 2.7 12 2.3 11.2 2.3C10.9 2.3 10.7 2.4 10.4 2.5L3 5.5C2 5.9 1.5 7 2 8L7 20C7.3 20.8 8 21.2 8.8 21.2C9.1 21.2 9.3 21.2 9.6 21L17 18C17.8 17.7 18.2 17 18.2 16.2C18.1 16 18.1 15.7 18 15.5M11.4 15L8.2 12.6L8.6 8.6L11.8 11L11.4 15" />
-				</svg>
-				<span class="ml-2">Mesa</span>
-			</label>
-		</li>
-		<li class="w-32">
-			<label for="tab-2" role="button" class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
-				<svg class="w-6 h-6 text-gray-800 dark:text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-					<title>cash-100</title>
-					<path d="M2,5H22V20H2V5M20,18V7H4V18H20M17,8A2,2 0 0,0 19,10V15A2,2 0 0,0 17,17H7A2,2 0 0,0 5,15V10A2,2 0 0,0 7,8H17M17,13V12C17,10.9 16.33,10 15.5,10C14.67,10 14,10.9 14,12V13C14,14.1 14.67,15 15.5,15C16.33,15 17,14.1 17,13M15.5,11A0.5,0.5 0 0,1 16,11.5V13.5A0.5,0.5 0 0,1 15.5,14A0.5,0.5 0 0,1 15,13.5V11.5A0.5,0.5 0 0,1 15.5,11M13,13V12C13,10.9 12.33,10 11.5,10C10.67,10 10,10.9 10,12V13C10,14.1 10.67,15 11.5,15C12.33,15 13,14.1 13,13M11.5,11A0.5,0.5 0 0,1 12,11.5V13.5A0.5,0.5 0 0,1 11.5,14A0.5,0.5 0 0,1 11,13.5V11.5A0.5,0.5 0 0,1 11.5,11M8,15H9V10H8L7,10.5V11.5L8,11V15Z" />
-				</svg>
-				<span class="ml-2">Buy-in</span>
-			</label>
-		</li>
-		<li class="w-32">
-			<label for="tab-3" role="button" class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
-				<svg class="w-6 h-6 text-gray-800 dark:text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-					<title>cash-fast</title>
-					<path d="M17.12 9.88C16.56 9.32 15.8 9 15 9S13.44 9.32 12.88 9.88C12.32 10.44 12 11.2 12 12S12.32 13.56 12.88 14.12 14.2 15 15 15 16.56 14.68 17.12 14.12 18 12.8 18 12 17.68 10.44 17.12 9.88M7 6V18H23V6H7M21 14C20.47 14 19.96 14.21 19.59 14.59C19.21 14.96 19 15.47 19 16H11C11 15.47 10.79 14.96 10.41 14.59C10.04 14.21 9.53 14 9 14V10C9.53 10 10.04 9.79 10.41 9.41C10.79 9.04 11 8.53 11 8H19C19 8.53 19.21 9.04 19.59 9.41C19.96 9.79 20.47 10 21 10V14M5 8H3C2.45 8 2 7.55 2 7C2 6.45 2.45 6 3 6H5V8M5 13H2C1.45 13 1 12.55 1 12C1 11.45 1.45 11 2 11H5V13M5 18H1C.448 18 0 17.55 0 17C0 16.45 .448 16 1 16H5V18Z" />
-				</svg>
-				<span class="ml-2">Cash-out</span>
-			</label>
-		</li>
-	</ul>
+
+	<div class="sm-tabs block md:hidden bg-gray-50 dark:bg-gray-800 rounded-t-lg border-b border-gray-200 dark:border-gray-700">
+		<ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+			<li class="me-2">
+				<label for="tab-1" role="button" class="inline-flex items-center justify-center px-3 py-2 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+					<svg class="w-4 h-4 text-gray-800 dark:text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<path d="M14.7 2.2H16.2C17.3 2.2 18.2 3.1 18.2 4.2V10.6L14.7 2.2M20.1 3.8L21.4 4.4C22.4 4.8 22.9 6 22.5 7L20.1 12.9V3.8M18 15.5L13 3.5C12.7 2.7 12 2.3 11.2 2.3C10.9 2.3 10.7 2.4 10.4 2.5L3 5.5C2 5.9 1.5 7 2 8L7 20C7.3 20.8 8 21.2 8.8 21.2C9.1 21.2 9.3 21.2 9.6 21L17 18C17.8 17.7 18.2 17 18.2 16.2C18.1 16 18.1 15.7 18 15.5M11.4 15L8.2 12.6L8.6 8.6L11.8 11L11.4 15" />
+					</svg>
+					<small class="ml-2">Mesa</small>
+				</label>
+			</li>
+			<li class="me-2">
+				<label for="tab-2" role="button" class="inline-flex items-center justify-center px-3 py-2 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+					<svg class="w-4 h-4 text-gray-800 dark:text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<path d="M2,5H22V20H2V5M20,18V7H4V18H20M17,8A2,2 0 0,0 19,10V15A2,2 0 0,0 17,17H7A2,2 0 0,0 5,15V10A2,2 0 0,0 7,8H17M17,13V12C17,10.9 16.33,10 15.5,10C14.67,10 14,10.9 14,12V13C14,14.1 14.67,15 15.5,15C16.33,15 17,14.1 17,13M15.5,11A0.5,0.5 0 0,1 16,11.5V13.5A0.5,0.5 0 0,1 15.5,14A0.5,0.5 0 0,1 15,13.5V11.5A0.5,0.5 0 0,1 15.5,11M13,13V12C13,10.9 12.33,10 11.5,10C10.67,10 10,10.9 10,12V13C10,14.1 10.67,15 11.5,15C12.33,15 13,14.1 13,13M11.5,11A0.5,0.5 0 0,1 12,11.5V13.5A0.5,0.5 0 0,1 11.5,14A0.5,0.5 0 0,1 11,13.5V11.5A0.5,0.5 0 0,1 11.5,11M8,15H9V10H8L7,10.5V11.5L8,11V15Z" />
+					</svg>
+					<small class="ml-2">Buy-in</small>
+				</label>
+			</li>
+			<li class="me-2">
+				<label for="tab-3" role="button" class="inline-flex items-center justify-center px-3 py-2 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+					<svg class="w-4 h-4 text-gray-800 dark:text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<path d="M17.12 9.88C16.56 9.32 15.8 9 15 9S13.44 9.32 12.88 9.88C12.32 10.44 12 11.2 12 12S12.32 13.56 12.88 14.12 14.2 15 15 15 16.56 14.68 17.12 14.12 18 12.8 18 12 17.68 10.44 17.12 9.88M7 6V18H23V6H7M21 14C20.47 14 19.96 14.21 19.59 14.59C19.21 14.96 19 15.47 19 16H11C11 15.47 10.79 14.96 10.41 14.59C10.04 14.21 9.53 14 9 14V10C9.53 10 10.04 9.79 10.41 9.41C10.79 9.04 11 8.53 11 8H19C19 8.53 19.21 9.04 19.59 9.41C19.96 9.79 20.47 10 21 10V14M5 8H3C2.45 8 2 7.55 2 7C2 6.45 2.45 6 3 6H5V8M5 13H2C1.45 13 1 12.55 1 12C1 11.45 1.45 11 2 11H5V13M5 18H1C.448 18 0 17.55 0 17C0 16.45 .448 16 1 16H5V18Z" />
+					</svg>
+					<small class="ml-2">Cash-out</small>
+				</label>
+			</li>
+		</ul>
+	</div>
+
+	<div class="md-tabs hidden md:block">
+		<ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
+			<li class="w-32">
+				<label for="tab-1" role="button" class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
+					<svg class="w-6 h-6 text-gray-800 dark:text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<path d="M14.7 2.2H16.2C17.3 2.2 18.2 3.1 18.2 4.2V10.6L14.7 2.2M20.1 3.8L21.4 4.4C22.4 4.8 22.9 6 22.5 7L20.1 12.9V3.8M18 15.5L13 3.5C12.7 2.7 12 2.3 11.2 2.3C10.9 2.3 10.7 2.4 10.4 2.5L3 5.5C2 5.9 1.5 7 2 8L7 20C7.3 20.8 8 21.2 8.8 21.2C9.1 21.2 9.3 21.2 9.6 21L17 18C17.8 17.7 18.2 17 18.2 16.2C18.1 16 18.1 15.7 18 15.5M11.4 15L8.2 12.6L8.6 8.6L11.8 11L11.4 15" />
+					</svg>
+					<span class="ml-2">Mesa</span>
+				</label>
+			</li>
+			<li class="w-32">
+				<label for="tab-2" role="button" class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
+					<svg class="w-6 h-6 text-gray-800 dark:text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<path d="M2,5H22V20H2V5M20,18V7H4V18H20M17,8A2,2 0 0,0 19,10V15A2,2 0 0,0 17,17H7A2,2 0 0,0 5,15V10A2,2 0 0,0 7,8H17M17,13V12C17,10.9 16.33,10 15.5,10C14.67,10 14,10.9 14,12V13C14,14.1 14.67,15 15.5,15C16.33,15 17,14.1 17,13M15.5,11A0.5,0.5 0 0,1 16,11.5V13.5A0.5,0.5 0 0,1 15.5,14A0.5,0.5 0 0,1 15,13.5V11.5A0.5,0.5 0 0,1 15.5,11M13,13V12C13,10.9 12.33,10 11.5,10C10.67,10 10,10.9 10,12V13C10,14.1 10.67,15 11.5,15C12.33,15 13,14.1 13,13M11.5,11A0.5,0.5 0 0,1 12,11.5V13.5A0.5,0.5 0 0,1 11.5,14A0.5,0.5 0 0,1 11,13.5V11.5A0.5,0.5 0 0,1 11.5,11M8,15H9V10H8L7,10.5V11.5L8,11V15Z" />
+					</svg>
+					<span class="ml-2">Buy-in</span>
+				</label>
+			</li>
+			<li class="w-32">
+				<label for="tab-3" role="button" class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
+					<svg class="w-6 h-6 text-gray-800 dark:text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<path d="M17.12 9.88C16.56 9.32 15.8 9 15 9S13.44 9.32 12.88 9.88C12.32 10.44 12 11.2 12 12S12.32 13.56 12.88 14.12 14.2 15 15 15 16.56 14.68 17.12 14.12 18 12.8 18 12 17.68 10.44 17.12 9.88M7 6V18H23V6H7M21 14C20.47 14 19.96 14.21 19.59 14.59C19.21 14.96 19 15.47 19 16H11C11 15.47 10.79 14.96 10.41 14.59C10.04 14.21 9.53 14 9 14V10C9.53 10 10.04 9.79 10.41 9.41C10.79 9.04 11 8.53 11 8H19C19 8.53 19.21 9.04 19.59 9.41C19.96 9.79 20.47 10 21 10V14M5 8H3C2.45 8 2 7.55 2 7C2 6.45 2.45 6 3 6H5V8M5 13H2C1.45 13 1 12.55 1 12C1 11.45 1.45 11 2 11H5V13M5 18H1C.448 18 0 17.55 0 17C0 16.45 .448 16 1 16H5V18Z" />
+					</svg>
+					<span class="ml-2">Cash-out</span>
+				</label>
+			</li>
+		</ul>
+	</div>
+
 	<div class="tab-content p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
-  <section id="tab-content-1">
-		<h2 class="text-lg dark:text-white font-bold mb-3">Jogadores</h1>
-		{% unless gamePlayers == empty %}
-			<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-				<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-					<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-						<tr>
-							{% if gameFinished %}
-								<th scope="col" class="px-6 py-3">
-									Pódio
-								</th>
-							{% endif %}
-							<th scope="col" class="px-6 py-3">
-								Saldo
-							</th>
-							<th scope="col" class="px-6 py-3">
-								Jogador
-							</th>
-							<th scope="col" class="px-6 py-3">
-								ID
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% assign topGamePlayers = gamePlayers | sort: "chips" %}
-						{% for player in topGamePlayers %}
-							<tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+		<section id="tab-content-1">
+			<h2 class="text-lg dark:text-white font-bold mb-3">Jogadores</h1>
+			{% unless gamePlayers == empty %}
+				<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+					<table class="w-full text-xs md:text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+						<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+							<tr>
 								{% if gameFinished %}
-									<th scope="row" class="px-6 py-4 text-center">
-										{% if forloop.index == 1 %}
-											🥇
-										{% elsif forloop.index == 2 %}
-											🥈
-										{% elsif forloop.index == 3 %}
-											🥉
-										{% elsif forloop.index >= 4 %}
-											{{ forloop.index }}º
-										{% endif %}
+									<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
+										Pódio
 									</th>
 								{% endif %}
-								<td class="px-6 py-4">
-									{{ player.chips | times: -1 }}
-								</td>
-								<td class="px-6 py-4 w-full">
-									{{ player.name }}
-								</td>
-								<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-									{{ player.id }}
+								<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
+									Saldo
+								</th>
+								<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
+									Jogador
+								</th>
+								<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
+									ID
 								</th>
 							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
+						</thead>
+						<tbody>
+							{% assign topGamePlayers = gamePlayers | sort: "chips" %}
+							{% for player in topGamePlayers %}
+								<tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+									{% if gameFinished %}
+										<th scope="row" class="px-3 py-2 md:px-6 md:py-4 text-center">
+											{% if forloop.index == 1 %}
+												🥇
+											{% elsif forloop.index == 2 %}
+												🥈
+											{% elsif forloop.index == 3 %}
+												🥉
+											{% elsif forloop.index >= 4 %}
+												{{ forloop.index }}º
+											{% endif %}
+										</th>
+									{% endif %}
+									<td class="px-3 py-2 md:px-6 md:py-4">
+										{{ player.chips | times: -1 }}
+									</td>
+									<td class="px-3 py-2 md:px-6 md:py-4 w-full">
+										{{ player.name }}
+									</td>
+									<th scope="row" class="px-3 py-2 md:px-6 md:py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+										{{ player.id }}
+									</th>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
 		{% else %}
 			<div class="py-8 w-full flex justify-center">
 				<a class="flex flex-col items-center bg-gray-100 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-700">
@@ -181,7 +206,7 @@
 					<div class="flex flex-col justify-between p-4 leading-normal">
 						<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Está meio vazio aqui 👀</h5>
 						<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Nenhum <b>jogador</b> cadastrado na mesa.</p>
-						<small class="mb-3 font-normal text-gray-700 dark:text-gray-400">Para começar, utilize a função "Buy-in" no menu lateral.</small>
+						<small class="mb-3 font-normal text-gray-700 dark:text-gray-400">Para começar, utilize a função "Buy-in" no menu.</small>
 					</div>
 				</a>
 			</div>
@@ -189,11 +214,11 @@
   </section>
 
   <section id="tab-content-2">
-		<h2 class="text-lg dark:text-white font-bold mb-3">Buy-in</h1>
-		<form id="new-buyin" action="/game/{{ game.id }}/buy-in" method="post" enctype="x-www-form-urlencoded" class="flex flex-wrap items-start space-x-4">
-			<div class="mb-3">
-				<label for="playerId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jogador</label>
-				<select id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" required>
+		<h2 class="text-lg dark:text-white font-bold">Buy-in</h1>
+		<form id="new-buyin" action="/game/{{ game.id }}/buy-in" method="post" enctype="x-www-form-urlencoded" class="flex flex-col justify-start md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0 my-6">
+			<div class="sm:w-full md:w-48">
+				<label for="playerId" class="block mb-2 text-xs md:text-sm font-medium text-gray-900 dark:text-white">Jogador</label>
+				<select id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" required>
 					<option value="" selected disabled hidden>Selecione o Jogador</option>
 					{% for player in allPlayers %}
 						<option value="{{ player.id }}">{{ player.name }}</option>
@@ -201,15 +226,13 @@
 				</select>
 			</div>
 
-			<div class="mb-3">
-				<label for="chips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichas</label>
-				<input id="chips" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="1" max="9999" value="500" required />
-				<small class="mt-2 text-sm text-gray-500 dark:text-gray-400">Quantidade de fichas entregues ao jogador. Ex.: 500</small>
+			<div class="w-full md:w-48">
+				<label for="chips" class="block mb-2 text-xs md:text-sm font-medium text-gray-900 dark:text-white">Fichas</label>
+				<input id="chips" placeholder="Apenas números inteiros" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="1" max="9999" value="500" required />
 			</div>
 
-			<div class="mb-3">
-				<label for="chips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white invisible">_</label>
-				<button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
+			<div class="w-full md:w-fit">
+				<button class="flex justify-center text-white border-blue-900 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
 					Cadastrar Buy-in
 				</button>
 			</div>
@@ -217,43 +240,43 @@
 
 		{% unless game.buyIns == empty %}
 			<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-				<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+				<table class="w-full text-xs md:text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
 					<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 						<tr>
-							<th scope="col" class="px-6 py-3">
+							<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
 								Jogador
 							</th>
-							<th scope="col" class="px-6 py-3">
+							<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
 								Fichas
 							</th>
-							<th scope="col" class="px-6 py-3">
+							<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
 								Entrada
 							</th>
-							<th scope="col" class="px-6 py-3">
+							<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
 								Pix QR-code
 							</th>
 						</tr>
 					</thead>
 					<tbody>
-					{% for buyIn in game.buyIns %}
+            {% for buyIn in game.buyIns %}
 							<tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-								<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+								<th scope="row" class="px-3 py-2 md:px-6 md:py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 									{{ buyIn.player.name }}
 								</th>
-								<td class="px-6 py-4">
+								<td class="px-3 py-2 md:px-6 md:py-4">
 									{{ buyIn.chips }}
 								</td>
-								<td class="px-6 py-4">
+								<td class="px-3 py-2 md:px-6 md:py-4">
 									{{ buyIn.createdAt | date: "%H:%M" }}
 								</td>
-								<td class="px-6 py-4 w-full">
+								<td class="px-3 py-2 md:px-6 md:py-4 w-full">
 									<input type="checkbox" id="qr-modal-buyin-toggle" class="hidden" />
 									<label for="qr-modal-buyin-toggle" class="cursor-pointer group relative">
 										<svg class="w-8 h-8 text-gray-800 dark:text-white p-1 rounded-lg group-hover:bg-white dark:group-hover:bg-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 											<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 4h6v6H4V4Zm10 10h6v6h-6v-6Zm0-10h6v6h-6V4Zm-4 10h.01v.01H10V14Zm0 4h.01v.01H10V18Zm-3 2h.01v.01H7V20Zm0-4h.01v.01H7V16Zm-3 2h.01v.01H4V18Zm0-4h.01v.01H4V14Z"/>
 											<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M7 7h.01v.01H7V7Zm10 10h.01v.01H17V17Z"/>
 										</svg>
-										<div role="tooltip" class="group-hover:visible group-hover:opacity-100 absolute left-0 top-10 z-10 invisible inline-block px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+										<div role="tooltip" class="group-hover:visible group-hover:opacity-100 absolute left-0 top-10 z-20 invisible inline-block px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
 											<span>
 												Mostrar QR-code
 											</span>
@@ -274,16 +297,16 @@
 					</tbody>
 					<tfoot>
 						<tr class="font-semibold bg-grey-100 rounded-b-lg dark:bg-gray-900 text-gray-900 dark:text-white">
-							<td class="px-6 py-3">
+							<td class="px-3 py-1.5 md:px-6 md:py-3">
 								<span class="invisible">_</span>
 							</td>
-							<td class="px-6 py-3">
+							<td class="px-3 py-1.5 md:px-6 md:py-3">
 								<span class="invisible">_</span>
 							</td>
-							<td class="px-6 py-3">
+							<td class="px-3 py-1.5 md:px-6 md:py-3">
 								<span class="invisible">_</span>
 							</td>
-							<td class="px-6 py-3">
+							<td class="px-3 py-1.5 md:px-6 md:py-3">
 								<span class="invisible">_</span>
 							</td>
 						</tr>
@@ -304,11 +327,14 @@
   </section>
 
   <section id="tab-content-3">
-		<h2 class="text-lg dark:text-white font-bold mb-3">Cash-out</h2>
-		<form id="new-cashout" action="/game/{{ game.id }}/cash-out" method="post" enctype="x-www-form-urlencoded" class="flex flex-wrap items-start space-x-4">
-			<div class="mb-3">
+		<h2 class="text-lg dark:text-white font-bold">Cash-out</h1>
+		<form id="new-cashout" action="/game/{{ game.id }}/cashout" method="post" enctype="x-www-form-urlencoded" class="flex flex-col justify-start md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0 my-6">
+			<div class="sm:w-full md:w-48">
 				<label for="playerId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jogador</label>
-				<select id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" required>
+				<select
+					{% if uniquePlayerIdsInGame == blank %} disabled {% endif %}
+					id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" required
+				>
 					<option value="" selected disabled hidden>Selecione o Jogador</option>
 					{% for player in allPlayers %}
 						{% if uniquePlayerIdsInGame contains player.id %}
@@ -318,15 +344,19 @@
 				</select>
 			</div>
 
-			<div class="mb-3">
+			<div class="sm:w-full md:w-48">
 				<label for="chips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichas</label>
-				<input id="chips" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="0" max="{{ inGameChips }}" required />
-				<small class="mt-2 text-sm text-gray-500 dark:text-gray-400">Quantidade de fichas entregues pelo jogador. Ex.: 600</small>
+				<input
+					{% if uniquePlayerIdsInGame == blank %} disabled {% endif %}
+					id="chips" placeholder="Apenas números inteiros" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="0" max="{{ inGameChips }}" required
+				/>
 			</div>
 
-			<div class="mb-3">
-				<label for="chips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white invisible">_</label>
-				<button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
+			<div class="w-full md:w-fit">
+				<button
+					{% if uniquePlayerIdsInGame == blank %} disabled {% endif %}
+					class="flex justify-center text-white border-blue-900 bg-blue-700 hover:bg-blue-800 disabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:ring-blue-300 font-medium rounded-lg text-sm p-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 disabled:hover:dark:bg-blue-600 dark:focus:ring-blue-800" type="submit"
+				>
 					Cadastrar Cash-out
 				</button>
 			</div>
@@ -336,19 +366,19 @@
 				<table class="text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
 					<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 						<tr>
-							<th scope="col" class="px-6 py-3">
+							<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
 								Jogador
 							</th>
-							<th scope="col" class="px-6 py-3">
+							<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
 								Fichas
 							</th>
-							<th scope="col" class="px-6 py-3">
+							<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
 								Valor
 							</th>
-							<th scope="col" class="px-6 py-3">
+							<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
 								Pix copia-e-cola
 							</th>
-							<th scope="col" class="px-6 py-3">
+							<th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
 								Pix QR-code
 							</th>
 						</tr>
@@ -356,20 +386,20 @@
 					<tbody>
 						{% for cashOut in game.cashOuts %}
 							<tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-								<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+								<th scope="row" class="px-3 py-2 md:px-6 md:py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 									{{ cashOut.player.name }}
 								</th>
-								<td class="px-6 py-4">
+								<td class="px-3 py-2 md:px-6 md:py-4">
 									{{ cashOut.chips }}
 								</td>
-								<td class="px-6 py-4">
+								<td class="px-3 py-2 md:px-6 md:py-4">
 									{{ cashOut.chips | times: game.dolar | divided_by: 10000 | BRL }}
 								</td>
-								<td class="px-6 py-4 w-full">
+								<td class="px-3 py-2 md:px-6 md:py-4 min-w-48 w-full">
 									{% unless cashOut.paymentPixCode == blank %}
 										<div class="w-full">
 											<div class="relative">
-												<input id="cashout-{{ forloop.index }}-pix-code-copy-input" type="text" class="col-span-6 bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 pl-2.5 pr-12 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ cashOut.paymentPixCode }}" disabled readonly>
+												<input id="cashout-{{ forloop.index }}-pix-code-copy-input" type="text" class="col-span-6 bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-1.5 pl-1.5 pr-12 md:py-2.5 md:pl-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ cashOut.paymentPixCode }}" disabled readonly>
 												<button id="cashout-{{ forloop.index }}-pix-code-copy-button" onclick="handleCashoutPixCodeCopyToClipBoardClick(this)" class="group absolute end-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg p-2 inline-flex items-center justify-center">
 													<span id="cashout-{{ forloop.index }}-pix-code-copy-default-icon">
 														<svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
@@ -381,7 +411,7 @@
 															<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
 														</svg>
 													</span>
-													<div id="cashout-{{ forloop.index }}-pix-code-copy-tooltip" role="tooltip" class="group-hover:visible group-hover:opacity-100 absolute right-0 top-10 z-10 invisible inline-block px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+													<div id="cashout-{{ forloop.index }}-pix-code-copy-tooltip" role="tooltip" class="group-hover:visible group-hover:opacity-100 absolute right-0 top-10 z-20 invisible inline-block px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
 														<span id="cashout-{{ forloop.index }}-pix-code-copy-default-tooltip-message">
 															Copiar
 														</span>
@@ -394,10 +424,10 @@
 											</div>
 										</div>
 									{% else %}
-										<img src="/image/sefudeu.svg" alt="se fudeu kkkkk" class="max-h-11 w-fit" />
+										<img src="/image/sefudeu.svg" alt="se fudeu kkkkk" class="max-h-8 md:max-h-11 w-fit" />
 									{% endunless %}
 								</td>
-								<td class="px-6 py-4 h-20 min-w-32 text-center">
+								<td class="px-3 py-2 md:px-6 md:py-4 min-w-32 text-center">
 									{% unless cashOut.paymentPixQRCode == blank %}
 										<input type="checkbox" id="qr-modal-cashout-toggle" class="hidden" />
 										<label for="qr-modal-cashout-toggle" class="group cursor-pointer w-full flex flex-col items-center relative">
@@ -405,7 +435,7 @@
 												<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 4h6v6H4V4Zm10 10h6v6h-6v-6Zm0-10h6v6h-6V4Zm-4 10h.01v.01H10V14Zm0 4h.01v.01H10V18Zm-3 2h.01v.01H7V20Zm0-4h.01v.01H7V16Zm-3 2h.01v.01H4V18Zm0-4h.01v.01H4V14Z"/>
 												<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M7 7h.01v.01H7V7Zm10 10h.01v.01H17V17Z"/>
 											</svg>
-											<div role="tooltip" class="group-hover:visible group-hover:opacity-100 absolute right-0 top-10 z-10 invisible inline-block px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+											<div role="tooltip" class="group-hover:visible group-hover:opacity-100 absolute right-0 top-10 z-20 invisible inline-block px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
 												<span>
 													Mostrar QR-code
 												</span>
@@ -429,19 +459,19 @@
 					</tbody>
 					<tfoot>
 						<tr class="font-semibold bg-grey-100 rounded-b-lg dark:bg-gray-900 text-gray-900 dark:text-white">
-							<td class="px-6 py-3">
+							<td class="px-3 py-1.5 md:px-6 md:py-3">
 								<span class="invisible">_</span>
 							</td>
-							<td class="px-6 py-3">
+							<td class="px-3 py-1.5 md:px-6 md:py-3">
 								<span class="invisible">_</span>
 							</td>
-							<td class="px-6 py-3">
+							<td class="px-3 py-1.5 md:px-6 md:py-3">
 								<span class="invisible">_</span>
 							</td>
-							<td class="px-6 py-3">
+							<td class="px-3 py-1.5 md:px-6 md:py-3">
 								<span class="invisible">_</span>
 							</td>
-							<td class="px-6 py-3">
+							<td class="px-3 py-1.5 md:px-6 md:py-3">
 								<span class="invisible">_</span>
 							</td>
 						</tr>
@@ -453,8 +483,13 @@
 				<a class="flex flex-col items-center bg-gray-100 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-700">
 					<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/image/background.jpg" alt="">
 					<div class="flex flex-col justify-between p-4 leading-normal">
-						<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Está meio vazio aqui 👀</h5>
-						<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Nenhum <b>cash-out</b> cadastrado.</p>
+						{% if uniquePlayerIdsInGame == blank %}
+							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Cash-out desabilidato! 🚫</h5>
+							<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Ainda não há jogadores cadastrados na mesa.</p>
+						{% else %}
+							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Está meio vazio aqui 👀</h5>
+							<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Nenhum <b>cash-out</b> cadastrado.</p>
+						{% endif %}
 					</div>
 				</a>
 			</div>

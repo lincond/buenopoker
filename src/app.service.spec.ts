@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CashOut, Game } from './game/entities';
+import { BuyIn, CashOut, Game } from './game/entities';
 import { GameService } from './game/services';
 import { AppService } from './app.service';
 import { Player } from './player/entities/player.entity';
@@ -35,19 +35,101 @@ describe('BuyInService', () => {
     const player2 = new Player({ id: 2, name: 'Player 2' });
     const game: Game = new Game({
       id: 1,
+      buyIns: [
+        new BuyIn({ id: 1, player, chips: 200 }),
+        new BuyIn({ id: 2, player: player2, chips: 200 }),
+      ],
       cashOuts: [
         new CashOut({ id: 1, player, chips: 100 }),
-        new CashOut({ id: 2, player: player2, chips: 50 }),
+        new CashOut({ id: 2, player: player2, chips: 300 }),
       ],
     });
 
-    it('deve retornar o ranking de player', async () => {
+    it('deve retornar o ranking de players ordenado pelo cashout', async () => {
       jest.spyOn(gameService, 'findAll').mockResolvedValue([game]);
 
-      const result = await service.getPlayerRanking();
+      const result = await service.getPlayerRanking('cashout');
       expect(result).toEqual([
-        { player: player.name, sum: 100 },
-        { player: player2.name, sum: 50 },
+        {
+          buyin: 200,
+          cashout: 300,
+          nett: 100,
+          percent: 50,
+          player: player2.name,
+        },
+        {
+          buyin: 200,
+          cashout: 100,
+          nett: -100,
+          percent: -50,
+          player: player.name,
+        },
+      ]);
+    });
+
+    it('deve retornar o ranking de players ordenado pelo buyin', async () => {
+      jest.spyOn(gameService, 'findAll').mockResolvedValue([game]);
+
+      const result = await service.getPlayerRanking('buyin');
+      expect(result).toEqual([
+        {
+          buyin: 200,
+          cashout: 100,
+          nett: -100,
+          percent: -50,
+          player: player.name,
+        },
+        {
+          buyin: 200,
+          cashout: 300,
+          nett: 100,
+          percent: 50,
+          player: player2.name,
+        },
+      ]);
+    });
+
+    it('deve retornar o ranking de players ordenado pelo valor líquido', async () => {
+      jest.spyOn(gameService, 'findAll').mockResolvedValue([game]);
+
+      const result = await service.getPlayerRanking('nett');
+      expect(result).toEqual([
+        {
+          buyin: 200,
+          cashout: 300,
+          nett: 100,
+          percent: 50,
+          player: player2.name,
+        },
+        {
+          buyin: 200,
+          cashout: 100,
+          nett: -100,
+          percent: -50,
+          player: player.name,
+        },
+      ]);
+    });
+
+    it('deve retornar o ranking de players ordenado pelo percentual líquido', async () => {
+      jest.spyOn(gameService, 'findAll').mockResolvedValue([game]);
+
+      const result = await service.getPlayerRanking('percent');
+      expect(result).toEqual([
+        {
+          buyin: 200,
+          cashout: 300,
+          nett: 100,
+          percent: 50,
+          player: player2.name,
+        },
+        {
+          buyin: 200,
+          cashout: 100,
+          nett: -100,
+          percent: -50,
+          player: player.name,
+        },
       ]);
     });
   });

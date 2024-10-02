@@ -1,37 +1,129 @@
 {% layout 'default.liquid' %}
 {% block 'content' %}
-<h1 class="text-2xl dark:text-white font-bold mb-4">Player Ranking</h1>
+<h1 class="text-3xl dark:text-white font-bold my-8">Player Ranking</h1>
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+  <table class="w-full text-sm md:text-xl text-left rtl:text-right text-gray-500 dark:text-gray-400">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
-        <th scope="col" class="px-6 py-3">
-          #
+        <th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
+          Pódio
         </th>
-        <th scope="col" class="px-6 py-3">
+        <th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
           Jogador
         </th>
-        <th scope="col" class="px-6 py-3">
-          Cashout
+        <th scope="col" class="hidden md:table-cell px-3 py-1.5 md:px-6 md:py-3">
+          <a 
+            id="sort-by-cashout" 
+            class="sort-by-anchor {% if sortedBy == "cashout" %} text-white dark:bg-gray-600 bg-blue-500 dark:hover:bg-gray-500 hover:bg-blue-100 {% else %} underline {% endif %} flex items-center justify-center space-x-1 w-fit px-2 py-1 rounded-lg cursor-pointer dark:hover:text-white hover:text-blue-500" 
+            {% if sortedBy == "cashout" %} href="/" {% else %} href="/?sortBy=cashout" {% endif %}
+          >
+            <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M19 7H22L18 3L14 7H17V21H19M9 21H5V19H9V18H7C5.9 18 5 17.11 5 16V15C5 13.9 5.9 13 7 13H9C10.11 13 11 13.9 11 15V19C11 20.11 10.11 21 9 21M9 15H7V16H9M7 3H9C10.11 3 11 3.9 11 5V9C11 10.11 10.11 11 9 11H7C5.9 11 5 10.11 5 9V5C5 3.9 5.9 3 7 3M7 9H9V5H7Z" />
+            </svg>
+            <span>Total Cash-out</span>
+          </a>
+        </th>
+        <th scope="col" class="hidden md:table-cell px-3 py-1.5 md:px-6 md:py-3">
+          <a 
+            id="sort-by-buyin" 
+            class="sort-by-anchor {% if sortedBy == "buyin" %} text-white dark:bg-gray-600 bg-blue-500 dark:hover:bg-gray-500 hover:bg-blue-100 {% else %} underline {% endif %} flex items-center justify-center space-x-1 w-fit px-2 py-1 rounded-lg cursor-pointer dark:hover:text-white hover:text-blue-500" 
+            {% if sortedBy == "buyin" %} href="/" {% else %} href="/?sortBy=buyin" {% endif %}
+          >
+            <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M19 17H22L18 21L14 17H17V3H19V17M9 13H7C5.9 13 5 13.9 5 15V16C5 17.11 5.9 18 7 18H9V19H5V21H9C10.11 21 11 20.11 11 19V15C11 13.9 10.11 13 9 13M9 16H7V15H9V16M9 3H7C5.9 3 5 3.9 5 5V9C5 10.11 5.9 11 7 11H9C10.11 11 11 10.11 11 9V5C11 3.9 10.11 3 9 3M9 9H7V5H9V9Z" />
+            </svg>
+            <span>Total Buy-in</span>
+          </a>
+        </th>
+        <th scope="col" class="px-3 py-1.5 md:px-6 md:py-3">
+          <a 
+            id="sort-by-nett" 
+            class="sort-by-anchor {% if sortedBy == "nett" %} text-white dark:bg-gray-600 bg-blue-500 dark:hover:bg-gray-500 hover:bg-blue-100 {% else %} underline {% endif %} flex items-center justify-center space-x-1 w-fit px-2 py-1 rounded-lg cursor-pointer dark:hover:text-white hover:text-blue-500" 
+            {% if sortedBy == "nett" %} href="/" {% else %} href="/?sortBy=nett" {% endif %}
+          >
+            <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M19 7H22L18 3L14 7H17V21H19M9 21H5V19H9V18H7C5.9 18 5 17.11 5 16V15C5 13.9 5.9 13 7 13H9C10.11 13 11 13.9 11 15V19C11 20.11 10.11 21 9 21M9 15H7V16H9M7 3H9C10.11 3 11 3.9 11 5V9C11 10.11 10.11 11 9 11H7C5.9 11 5 10.11 5 9V5C5 3.9 5.9 3 7 3M7 9H9V5H7Z" />
+            </svg>
+            <span>Total Líquido</span>
+          </a>
+        </th>
+        <th scope="col" class="hidden md:table-cell px-3 py-1.5 md:px-6 md:py-3">
+          <a 
+            id="sort-by-percent" 
+            class="sort-by-anchor {% if sortedBy == "percent" %} text-white dark:bg-gray-600 bg-blue-500 dark:hover:bg-gray-500 hover:bg-blue-100 {% else %} underline {% endif %} flex items-center justify-around w-full px-2 py-1 rounded-lg cursor-pointer dark:hover:text-white hover:text-blue-500" 
+            {% if sortedBy == "percent" %} href="/" {% else %} href="/?sortBy=percent" {% endif %}
+          >
+            <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M19 7H22L18 3L14 7H17V21H19M9 21H5V19H9V18H7C5.9 18 5 17.11 5 16V15C5 13.9 5.9 13 7 13H9C10.11 13 11 13.9 11 15V19C11 20.11 10.11 21 9 21M9 15H7V16H9M7 3H9C10.11 3 11 3.9 11 5V9C11 10.11 10.11 11 9 11H7C5.9 11 5 10.11 5 9V5C5 3.9 5.9 3 7 3M7 9H9V5H7Z" />
+            </svg>
+            <span>Percentual Líquido</span>
+          </a>
         </th>
       </tr>
     </thead>
     <tbody>
       {% for player in ranking %}
         <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {{ forloop.index }}
+          <th scope="row" class="text-center px-3 py-2 md:px-6 md:py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {% if forloop.index == 1 %}
+              🥇
+            {% elsif forloop.index == 2 %}
+              🥈
+            {% elsif forloop.index == 3 %}
+              🥉
+            {% elsif forloop.index >= 4 %}
+              {{ forloop.index }}º
+            {% endif %}
           </th>
-          <td class="px-6 py-4">
+          <td class="w-full min-w-48 px-3 py-2 md:px-6 md:py-4">
             {{ player.player }}
           </td>
-          <td class="px-6 py-4">
-            {{ player.sum }}
+          <td class="hidden md:table-cell min-w-48 px-8 py-4">
+            {{ player.cashout }}
+          </td>
+          <td class="hidden md:table-cell min-w-48 px-8 py-4">
+            {{ player.buyin | times: -1 }}
+          </td>
+          <td class="min-w-48 px-8 py-4">
+            {{ player.nett }}
+          </td>
+          <td class="hidden md:table-cell min-w-56 px-3 py-2 md:px-6 md:py-4 text-right font-bold">
+            {{ player.percent | round: 2 }}%
+            {% if player.percent >= 90 %}
+              <svg class="h-6 w-6 inline fill-indigo-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M7,15L12,10L17,15H7Z" />
+              </svg>
+            {% elsif player.percent >= 50 and player.percent < 90 %}
+              <svg class="h-6 w-6 inline fill-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M7,15L12,10L17,15H7Z" />
+              </svg>
+            {% elsif player.percent >= 10 and player.percent < 50 %}
+              <svg class="h-6 w-6 inline fill-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M7,15L12,10L17,15H7Z" />
+              </svg>
+            {% elsif player.percent > -10 and player.percent < 10 %}
+              <svg class="h-6 w-6 inline fill-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M19,10H5V8H19V10M19,16H5V14H19V16Z" />
+              </svg>
+            {% elsif player.percent > -50 and player.percent <= -10 %}
+              <svg class="h-6 w-6 inline fill-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M7,10L12,15L17,10H7Z" />
+              </svg>
+            {% elsif player.percent > -90 and player.percent <= -50 %}
+              <svg class="h-6 w-6 inline fill-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M7,10L12,15L17,10H7Z" />
+              </svg>
+            {% elsif player.percent <= -90 %}
+              <svg class="h-6 w-6 inline fill-rose-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M7,10L12,15L17,10H7Z" />
+              </svg>
+            {% endif %}
           </td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
+
 {% endblock %}
