@@ -209,7 +209,7 @@
 					<div class="flex flex-col justify-between p-4 leading-normal">
 						<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Está meio vazio aqui 👀</h5>
 						<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Nenhum <b>jogador</b> cadastrado na mesa.</p>
-						<small class="mb-3 font-normal text-gray-700 dark:text-gray-400">Para começar, utilize a função "Buy-in" no menu lateral.</small>
+						<small class="mb-3 font-normal text-gray-700 dark:text-gray-400">Para começar, utilize a função "Buy-in" no menu.</small>
 					</div>
 				</a>
 			</div>
@@ -334,7 +334,10 @@
 		<form id="new-cashout" action="/game/{{ game.id }}/cashout" method="post" enctype="x-www-form-urlencoded" class="flex flex-col justify-start md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0 my-6">
 			<div class="sm:w-full md:w-48">
 				<label for="playerId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jogador</label>
-				<select id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" required>
+				<select
+					{% if uniquePlayerIdsInGame == blank %} disabled {% endif %}
+					id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" required
+				>
 					<option value="" selected disabled hidden>Selecione o Jogador</option>
 					{% for player in allPlayers %}
 						{% if uniquePlayerIdsInGame contains player.id %}
@@ -346,11 +349,17 @@
 
 			<div class="sm:w-full md:w-48">
 				<label for="chips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichas</label>
-				<input id="chips" placeholder="Apenas números inteiros" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="0" max="{{ inGameChips }}" required />
+				<input
+					{% if uniquePlayerIdsInGame == blank %} disabled {% endif %}
+					id="chips" placeholder="Apenas números inteiros" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="0" max="{{ inGameChips }}" required
+				/>
 			</div>
 
 			<div class="w-full md:w-fit">
-				<button class="flex justify-center text-white border-blue-900 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
+				<button
+					{% if uniquePlayerIdsInGame == blank %} disabled {% endif %}
+					class="flex justify-center text-white border-blue-900 bg-blue-700 hover:bg-blue-800 disabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:ring-blue-300 font-medium rounded-lg text-sm p-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 disabled:hover:dark:bg-blue-600 dark:focus:ring-blue-800" type="submit"
+				>
 					Cadastrar Cash-out
 				</button>
 			</div>
@@ -477,8 +486,13 @@
 				<a class="flex flex-col items-center bg-gray-100 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-700">
 					<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/image/background.jpg" alt="">
 					<div class="flex flex-col justify-between p-4 leading-normal">
-						<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Está meio vazio aqui 👀</h5>
-						<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Nenhum <b>cash-out</b> cadastrado.</p>
+						{% if uniquePlayerIdsInGame == blank %}
+							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Cash-out desabilidato! 🚫</h5>
+							<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Ainda não há jogadores cadastrados na mesa.</p>
+						{% else %}
+							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Está meio vazio aqui 👀</h5>
+							<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Nenhum <b>cash-out</b> cadastrado.</p>
+						{% endif %}
 					</div>
 				</a>
 			</div>
