@@ -13,12 +13,9 @@
 
   {% assign uniquePlayerIdsInGame = game.buyIns | map: 'player.id' | uniq %}
 
-  <a 
-    {% if gameFinished %}
-      class="min-w-fit flex-1 md:min-w-96 md:flex-initial flex flex-col md:flex-row p-0 bg-white border border-gray-200 rounded-lg shadow md:max-w-xl dark:border-gray-700 dark:bg-gray-800"
-    {% else %}
-      href="https://g.co/kgs/d9kNc8t" target="_blank" class="min-w-fit flex-1 md:min-w-96 md:flex-initial flex flex-col md:flex-row p-0 bg-white border border-gray-200 rounded-lg shadow md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-    {% endif %}
+  <a
+		class="{% unless gameFinished %} hover:bg-gray-100 dark:hover:bg-gray-700 {% endunless %} min-w-fit flex-1 md:min-w-96 md:flex-initial flex flex-col md:flex-row p-0 bg-white border border-gray-200 rounded-lg shadow md:max-w-xl dark:border-gray-700 dark:bg-gray-800"
+    {% unless gameFinished %} href="https://g.co/kgs/d9kNc8t" target="_blank" {% endunless %}
   >
     <div class="flex flex-col justify-between p-4 leading-normal w-full">
       <div class="w-full flex space-x-4 items-start justify-between">
