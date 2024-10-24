@@ -674,14 +674,6 @@ video {
   margin-top: 0.5rem;
 }
 
-.mb-1 {
-  margin-bottom: 0.25rem;
-}
-
-.mb-0 {
-  margin-bottom: 0px;
-}
-
 .block {
   display: block;
 }
@@ -852,10 +844,6 @@ video {
 
 .items-start {
   align-items: flex-start;
-}
-
-.items-end {
-  align-items: flex-end;
 }
 
 .items-center {
@@ -1667,12 +1655,12 @@ input#qr-modal-cashout-toggle:checked~#qr-modal {
     padding-bottom: 1rem;
   }
 
-  .md\:pl-2\.5 {
-    padding-left: 0.625rem;
-  }
-
   .md\:pb-4 {
     padding-bottom: 1rem;
+  }
+
+  .md\:pl-2\.5 {
+    padding-left: 0.625rem;
   }
 
   .md\:text-2xl {

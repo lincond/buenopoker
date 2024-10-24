@@ -68,8 +68,10 @@ export class GameController {
       }
 
       const value = (cashOut.chips * game.dolar) / 10_000;
+      const royalFlushPercent = game.royalFlushFee / 100;
+      const netValue = value * (1 - royalFlushPercent);
       this.logger.debug(
-        `Valor CashOut ${cashOut.id} para o player ${cashOut.player.name} no valor: R$ ${(+value).toFixed(2)}`,
+        `Valor CashOut ${cashOut.id} para o player ${cashOut.player.name} no valor: R$ ${netValue.toFixed(2)}`,
       );
       const qrCodePix = QrCodePix({
         version: '01',
@@ -78,10 +80,10 @@ export class GameController {
         city: 'GOIANIA',
         message: `Cash Out #${cashOut.id}`,
         cep: '74223230',
-        value,
+        value: netValue,
       });
       cashOut['paymentPixCode'] = qrCodePix.payload();
-      cashOut['paymentPixQRCode'] = qrCodePix.base64();
+      cashOut['netValue'] = netValue;
     }
 
     return {
