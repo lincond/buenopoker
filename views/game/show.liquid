@@ -395,7 +395,11 @@
 									{{ cashOut.chips }}
 								</td>
 								<td class="px-3 py-2 md:px-6 md:py-4">
-									{{ cashOut.chips | times: game.dolar | divided_by: 10000 | BRL }}
+									{% if cashOut.netValue > 0 %}
+										{{ cashOut.netValue | BRL }}
+									{% else %}
+										0
+									{% endif %}
 								</td>
 								<td class="px-3 py-2 md:px-6 md:py-4 min-w-48 w-full">
 									{% unless cashOut.paymentPixCode == blank %}
