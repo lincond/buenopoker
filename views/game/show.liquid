@@ -32,7 +32,9 @@
           <span class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">Finalizado</span>
         {% endif %}
       </div>
-      <small class="mb-3 font-normal text-gray-700 dark:text-gray-400">🗓️ Criado em {{ game.createdAt | date: "%d/%m/%Y %H:%M" }}</small>
+      <small class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+				🗓️ <span class="hidden md:inline">Criado em</span> {{ game.createdAt | date: "%d/%m/%Y %H:%M" }}
+			</small>
       <hr class="hidden md:block h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
       <div class="text-xs md:text-sm text-gray-500 dark:text-white">
         <strong>💵 <span class="hidden md:inline">Cotação do dólar - </span>U$ {{ game.dolar | divided_by: 100 }}</strong>
@@ -270,22 +272,22 @@
 									{{ buyIn.createdAt | date: "%H:%M" }}
 								</td>
 								<td class="px-3 py-2 md:px-6 md:py-4 w-full">
-									<input type="checkbox" id="qr-modal-buyin-toggle" class="hidden" />
-									<label for="qr-modal-buyin-toggle" class="cursor-pointer group relative">
+									<input type="checkbox" id="qr-modal-buyin-toggle-{{ forloop.index }}" class="hidden" />
+									<label for="qr-modal-buyin-toggle-{{ forloop.index }}" class="cursor-pointer group relative">
 										<svg class="w-8 h-8 text-gray-800 dark:text-white p-1 rounded-lg group-hover:bg-white dark:group-hover:bg-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 											<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 4h6v6H4V4Zm10 10h6v6h-6v-6Zm0-10h6v6h-6V4Zm-4 10h.01v.01H10V14Zm0 4h.01v.01H10V18Zm-3 2h.01v.01H7V20Zm0-4h.01v.01H7V16Zm-3 2h.01v.01H4V18Zm0-4h.01v.01H4V14Z"/>
 											<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M7 7h.01v.01H7V7Zm10 10h.01v.01H17V17Z"/>
 										</svg>
-										<div role="tooltip" class="group-hover:visible group-hover:opacity-100 absolute left-0 top-10 z-20 invisible inline-block px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+										<div role="tooltip" class="hidden sm:inline-block group-hover:visible group-hover:opacity-100 absolute left-0 top-10 z-20 invisible px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
 											<span>
 												Mostrar QR-code
 											</span>
 										</div>
 									</label>
-									<div class="fixed z-10 inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" id="qr-modal">
-										<label for="qr-modal-buyin-toggle" class="absolute inset-0 cursor-pointer"></label>
+									<div class="fixed z-10 inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" id="qr-modal--{{ forloop.index }}">
+										<label for="qr-modal-buyin-toggle-{{ forloop.index }}" class="absolute inset-0 cursor-pointer"></label>
 										<div class="bg-white p-6 rounded-lg w-96 aspect-square flex flex-col items-center justify-center relative">
-											<label for="qr-modal-buyin-toggle" class="absolute top-2 right-4 text-gray-500 cursor-pointer text-xl">&times;</label>
+											<label for="qr-modal-buyin-toggle-{{ forloop.index }}" class="absolute top-2 right-4 text-gray-500 cursor-pointer text-xl">&times;</label>
 											<img alt="{{ buyIn.pix.payload }}" src="{{ buyIn.pix.base64 }}" class="w-full h-full object-contain" />
 											<div class="absolute w-24 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 aspect-square bg-white"></div>
 											<img src="/image/logo.svg" class="absolute w-24 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" alt="Bueno Poker Logo" />
@@ -328,7 +330,7 @@
 
   <section id="tab-content-3">
 		<h2 class="text-lg dark:text-white font-bold">Cash-out</h1>
-		<form id="new-cashout" action="/game/{{ game.id }}/cashout" method="post" enctype="x-www-form-urlencoded" class="flex flex-col justify-start md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0 my-6">
+		<form id="new-cashout" action="/game/{{ game.id }}/cash-out" method="post" enctype="x-www-form-urlencoded" class="flex flex-col justify-start md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0 my-6">
 			<div class="sm:w-full md:w-48">
 				<label for="playerId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jogador</label>
 				<select
@@ -411,7 +413,7 @@
 															<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
 														</svg>
 													</span>
-													<div id="cashout-{{ forloop.index }}-pix-code-copy-tooltip" role="tooltip" class="group-hover:visible group-hover:opacity-100 absolute right-0 top-10 z-20 invisible inline-block px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+													<div id="cashout-{{ forloop.index }}-pix-code-copy-tooltip" role="tooltip" class="hidden sm:inline-block group-hover:visible group-hover:opacity-100 absolute right-0 top-10 z-20 invisible px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
 														<span id="cashout-{{ forloop.index }}-pix-code-copy-default-tooltip-message">
 															Copiar
 														</span>
@@ -429,22 +431,22 @@
 								</td>
 								<td class="px-3 py-2 md:px-6 md:py-4 min-w-32 text-center">
 									{% unless cashOut.paymentPixQRCode == blank %}
-										<input type="checkbox" id="qr-modal-cashout-toggle" class="hidden" />
-										<label for="qr-modal-cashout-toggle" class="group cursor-pointer w-full flex flex-col items-center relative">
+										<input type="checkbox" id="qr-modal-cashout-toggle-{{ forloop.index }}" class="hidden" />
+										<label for="qr-modal-cashout-toggle-{{ forloop.index }}" class="group cursor-pointer w-full flex flex-col items-center relative">
 											<svg class="w-8 h-8 text-gray-800 dark:text-white p-1 rounded-lg group-hover:bg-white dark:group-hover:bg-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 												<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 4h6v6H4V4Zm10 10h6v6h-6v-6Zm0-10h6v6h-6V4Zm-4 10h.01v.01H10V14Zm0 4h.01v.01H10V18Zm-3 2h.01v.01H7V20Zm0-4h.01v.01H7V16Zm-3 2h.01v.01H4V18Zm0-4h.01v.01H4V14Z"/>
 												<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M7 7h.01v.01H7V7Zm10 10h.01v.01H17V17Z"/>
 											</svg>
-											<div role="tooltip" class="group-hover:visible group-hover:opacity-100 absolute right-0 top-10 z-20 invisible inline-block px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+											<div role="tooltip" class="hidden sm:inline-block group-hover:visible group-hover:opacity-100 absolute right-0 top-10 z-20 invisible px-2 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
 												<span>
 													Mostrar QR-code
 												</span>
 											</div>
 										</label>
-										<div class="fixed z-10 inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" id="qr-modal">
-											<label for="qr-modal-cashout-toggle" class="absolute inset-0 cursor-pointer"></label>
+										<div class="fixed z-10 inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" id="qr-modal--{{ forloop.index }}">
+											<label for="qr-modal-cashout-toggle-{{ forloop.index }}" class="absolute inset-0 cursor-pointer"></label>
 											<div class="bg-white p-6 rounded-lg w-96 aspect-square flex flex-col items-center justify-center relative">
-												<label for="qr-modal-cashout-toggle" class="absolute top-2 right-4 text-gray-500 cursor-pointer text-xl">&times;</label>
+												<label for="qr-modal-cashout-toggle-{{ forloop.index }}" class="absolute top-2 right-4 text-gray-500 cursor-pointer text-xl">&times;</label>
 												<img alt="{{ cashOut.paymentPixCode }}" src="{{ cashOut.paymentPixQRCode }}" class="w-full h-full object-contain" />
 												<div class="absolute w-24 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 aspect-square bg-white"></div>
 												<img src="/image/logo.svg" class="absolute w-24 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" alt="Bueno Poker Logo" />
@@ -499,6 +501,7 @@
 
 <script type="text/javascript">
 	function handleCashoutPixCodeCopyToClipBoardClick({ id = "" }) {
+		const copyToClipboardAnimationTimeout = 3000;
 		const input = document.getElementById(id.replace(/button/, "input"));
 
 		navigator.clipboard.writeText(input.value).then(() => {
@@ -520,7 +523,7 @@
 				defaultTooltipMessage.classList.remove("hidden");
 				successIcon.classList.add('hidden');
 				defaultIcon.classList.remove('hidden');
-			}, 3000);
+			}, copyToClipboardAnimationTimeout);
 		}, console.error);
 	}
 </script>

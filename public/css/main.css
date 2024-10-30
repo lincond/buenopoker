@@ -674,20 +674,8 @@ video {
   margin-top: 0.5rem;
 }
 
-.mb-1 {
-  margin-bottom: 0.25rem;
-}
-
-.mb-0 {
-  margin-bottom: 0px;
-}
-
 .block {
   display: block;
-}
-
-.inline-block {
-  display: inline-block;
 }
 
 .inline {
@@ -852,10 +840,6 @@ video {
 
 .items-start {
   align-items: flex-start;
-}
-
-.items-end {
-  align-items: flex-end;
 }
 
 .items-center {
@@ -1383,12 +1367,12 @@ video {
 
 /* Exibição do modal do QR-code gerado para o PIX */
 
-input#qr-modal-buyin-toggle:checked~#qr-modal {
+input[id^="qr-modal-buyin-toggle"]:checked~div[id^="qr-modal"] {
   pointer-events: auto;
   opacity: 1;
 }
 
-input#qr-modal-cashout-toggle:checked~#qr-modal {
+input[id^="qr-modal-cashout-toggle"]:checked~div[id^="qr-modal"] {
   pointer-events: auto;
   opacity: 1;
 }
@@ -1421,7 +1405,9 @@ input#qr-modal-cashout-toggle:checked~#qr-modal {
 #tab-2:checked~.sm-tabs>ul>li>label[for="tab-2"],
 #tab-3:checked~.sm-tabs>ul>li>label[for="tab-3"] {
   --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity));
+  border-color: rgb(29 78 216 / var(--tw-border-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
 }
 
 #tab-1:checked~div>ul>li>label[for="tab-1"],
@@ -1437,6 +1423,14 @@ input#qr-modal-cashout-toggle:checked~#qr-modal {
   fill: currentColor;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+#tab-1:checked~.sm-tabs>ul>li>label[for="tab-1"]>svg,
+#tab-2:checked~.sm-tabs>ul>li>label[for="tab-2"]>svg,
+#tab-3:checked~.sm-tabs>ul>li>label[for="tab-3"]>svg {
+  fill: currentColor;
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
 }
 
 .odd\:bg-white:nth-child(odd) {
@@ -1538,6 +1532,10 @@ input#qr-modal-cashout-toggle:checked~#qr-modal {
 }
 
 @media (min-width: 640px) {
+  .sm\:inline-block {
+    display: inline-block;
+  }
+
   .sm\:w-full {
     width: 100%;
   }
@@ -1667,12 +1665,12 @@ input#qr-modal-cashout-toggle:checked~#qr-modal {
     padding-bottom: 1rem;
   }
 
-  .md\:pl-2\.5 {
-    padding-left: 0.625rem;
-  }
-
   .md\:pb-4 {
     padding-bottom: 1rem;
+  }
+
+  .md\:pl-2\.5 {
+    padding-left: 0.625rem;
   }
 
   .md\:text-2xl {
