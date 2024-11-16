@@ -220,7 +220,7 @@
 		<form id="new-buyin" action="/game/{{ game.id }}/buy-in" method="post" enctype="x-www-form-urlencoded" class="flex flex-col justify-start md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0 my-6">
 			<div class="sm:w-full md:w-48">
 				<label for="playerId" class="block mb-2 text-xs md:text-sm font-medium text-gray-900 dark:text-white">Jogador</label>
-				<select id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" required>
+				<select id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" requiblue>
 					<option value="" selected disabled hidden>Selecione o Jogador</option>
 					{% for player in allPlayers %}
 						<option value="{{ player.id }}">{{ player.name }}</option>
@@ -230,7 +230,7 @@
 
 			<div class="w-full md:w-48">
 				<label for="chips" class="block mb-2 text-xs md:text-sm font-medium text-gray-900 dark:text-white">Fichas</label>
-				<input id="chips" placeholder="Apenas números inteiros" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="1" max="9999" value="500" required />
+				<input id="chips" placeholder="Apenas números inteiros" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-xs md:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="1" max="9999" value="500" requiblue />
 			</div>
 
 			<div class="w-full md:w-fit">
@@ -335,7 +335,7 @@
 				<label for="playerId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jogador</label>
 				<select
 					{% if uniquePlayerIdsInGame == blank %} disabled {% endif %}
-					id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" required
+					id="playerId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="playerId" requiblue
 				>
 					<option value="" selected disabled hidden>Selecione o Jogador</option>
 					{% for player in allPlayers %}
@@ -350,7 +350,7 @@
 				<label for="chips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fichas</label>
 				<input
 					{% if uniquePlayerIdsInGame == blank %} disabled {% endif %}
-					id="chips" placeholder="Apenas números inteiros" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="0" max="{{ inGameChips }}" required
+					id="chips" placeholder="Apenas números inteiros" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="chips" min="0" max="{{ inGameChips }}" requiblue
 				/>
 			</div>
 

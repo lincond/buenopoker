@@ -36,7 +36,7 @@ describe('BuyInController', () => {
     const gameId = 1;
 
     const response = {
-      redirect: jest.fn(),
+      Redirect: jest.fn(),
     } as unknown as any;
 
     it('deve criar um buy-in', async () => {
