@@ -4,6 +4,7 @@ import { Liquid } from 'liquidjs';
 import * as path from 'node:path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
+import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -23,6 +24,14 @@ async function bootstrap() {
   app.setViewEngine('liquid');
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
+
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
 
   await app.listen(3000);
 }

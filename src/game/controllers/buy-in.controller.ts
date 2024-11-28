@@ -5,12 +5,15 @@ import {
   ParseIntPipe,
   Post,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { BuyInService } from '../services';
 import { CreateBuyInDto } from '../dto/create-buy-in.dto';
 import { Response } from 'express';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('game/:gameId/buy-in')
+@UseGuards(AuthGuard)
 export class BuyInController {
   constructor(private readonly buyInService: BuyInService) {}
 

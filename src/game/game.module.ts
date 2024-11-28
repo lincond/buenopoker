@@ -8,11 +8,13 @@ import {
   CashOutController,
 } from './controllers';
 import { Game, BuyIn, CashOut, Pix } from './entities';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Game, BuyIn, CashOut, Pix]),
     PlayerModule,
+    AuthModule,
   ],
   controllers: [GameController, BuyInController, CashOutController],
   providers: [GameService, BuyInService, CashOutService],

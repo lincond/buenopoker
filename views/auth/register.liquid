@@ -1,0 +1,16 @@
+{% if error %}
+  {{ error.message }}
+{% endif %}
+<form enctype="application/x-www-form-urlencoded" action="/auth/register" method="post">
+  <label for="name">Nome</label>
+  <input type="text" name="name" id="name">
+
+  <label for="email">E-mail</label>
+  <input type="email" name="email" id="email">
+
+  <label for="password">Senha</label>
+  <input type="password" name="password" id="password">
+
+  <button type="submit">Cadastrar</button>
+</form>
+<a href="/auth/login">Já possui uma conta? Entrar</a>

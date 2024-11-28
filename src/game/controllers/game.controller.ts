@@ -8,14 +8,17 @@ import {
   Render,
   ParseIntPipe,
   Logger,
+  UseGuards,
 } from '@nestjs/common';
 import { GameService } from '../services';
 import { CreateGameDto } from '../dto/create-game.dto';
 import { Response } from 'express';
 import { PlayerService } from '../../player/player.service';
 import { QrCodePix } from 'qrcode-pix';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('game')
+@UseGuards(AuthGuard)
 export class GameController {
   private readonly logger = new Logger(GameController.name);
   constructor(
