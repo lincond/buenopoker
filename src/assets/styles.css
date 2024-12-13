@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 /* Exibição do modal do QR-code gerado para o PIX */
-input#qr-modal-buyin-toggle:checked~#qr-modal {
+input[id^="qr-modal-buyin-toggle"]:checked~div[id^="qr-modal"] {
   @apply opacity-100 pointer-events-auto;
 }
 
-input#qr-modal-cashout-toggle:checked~#qr-modal {
+input[id^="qr-modal-cashout-toggle"]:checked~div[id^="qr-modal"] {
   @apply opacity-100 pointer-events-auto;
 }
 
@@ -35,7 +35,7 @@ input#qr-modal-cashout-toggle:checked~#qr-modal {
 #tab-1:checked~.sm-tabs>ul>li>label[for="tab-1"],
 #tab-2:checked~.sm-tabs>ul>li>label[for="tab-2"],
 #tab-3:checked~.sm-tabs>ul>li>label[for="tab-3"] {
-  @apply border-white;
+  @apply border-blue-700 text-blue-700;
 }
 
 #tab-1:checked~div>ul>li>label[for="tab-1"],
@@ -48,4 +48,10 @@ input#qr-modal-cashout-toggle:checked~#qr-modal {
 #tab-2:checked~div>ul>li>label[for="tab-2"]>svg,
 #tab-3:checked~div>ul>li>label[for="tab-3"]>svg {
   @apply text-white fill-current;
+}
+
+#tab-1:checked~.sm-tabs>ul>li>label[for="tab-1"]>svg,
+#tab-2:checked~.sm-tabs>ul>li>label[for="tab-2"]>svg,
+#tab-3:checked~.sm-tabs>ul>li>label[for="tab-3"]>svg {
+  @apply text-blue-700 fill-current;
 }

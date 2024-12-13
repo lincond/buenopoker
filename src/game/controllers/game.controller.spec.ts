@@ -73,7 +73,7 @@ describe('GameController', () => {
   ];
   const game = new Game({ id: gameId, buyIns, cashOuts });
   const response = {
-    redirect: jest.fn(),
+    Redirect: jest.fn(),
   } as unknown as any;
 
   describe('create', () => {

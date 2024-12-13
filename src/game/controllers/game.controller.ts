@@ -83,6 +83,7 @@ export class GameController {
         value: netValue,
       });
       cashOut['paymentPixCode'] = qrCodePix.payload();
+      cashOut['paymentPixQRCode'] = qrCodePix.base64();
       cashOut['netValue'] = netValue;
     }
 
