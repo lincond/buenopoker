@@ -7,10 +7,14 @@ export class AppController {
 
   @Get()
   @Render('index')
-  async getPlayerRanking(@Query('sortBy') sortedBy: string = 'nett') {
+  async getPlayerRanking(
+    @Query('sortBy') sortedBy: string = 'nett',
+    @Query('year') year: number = new Date().getFullYear(),
+  ) {
     return {
-      ranking: await this.appService.getPlayerRanking(sortedBy),
+      ranking: await this.appService.getPlayerRanking(sortedBy, year),
       sortedBy,
+      where: { year },
     };
   }
 }
