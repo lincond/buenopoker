@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { GameService } from './game/services';
+import { BetweenDatesAdapter } from './common/adapters/between.adapter';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly gameSerivce: GameService) { }
+  constructor(private readonly gameService: GameService) { }
 
-  async getPlayerRanking(sortByKey: string) {
-    const games = await this.gameSerivce.findAll();
+  async getPlayerRanking(sortByKey: string, year: number) {
+    const createdAtBetween = new BetweenDatesAdapter(year);
+    const games =
+      await this.gameService.findByCreatedAtBetween(createdAtBetween);
     const totalCashOutByPlayerId = new Map<number, number>();
     const totalBuyInByPlayerId = new Map<number, number>();
     const playerNamesByPlayerId = new Map<number, string>();
