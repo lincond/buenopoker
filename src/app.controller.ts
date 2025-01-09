@@ -9,10 +9,12 @@ export class AppController {
   @Render('index')
   async getPlayerRanking(
     @Query('sortBy') sortedBy: string = 'nett',
-    @Query('year') year: number = new Date().getFullYear(),
+    @Query('year') year?: number,
   ) {
+    const currentYear = year || new Date().getFullYear();
+
     return {
-      ranking: await this.appService.getPlayerRanking(sortedBy, year),
+      ranking: await this.appService.getPlayerRanking(sortedBy, currentYear),
       sortedBy,
       where: { year },
     };
